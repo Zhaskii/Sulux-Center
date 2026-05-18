@@ -452,7 +452,11 @@ function ProductCard({
       initial={{ opacity: 0, y: 28 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.96 }}
-      transition={{ duration: 0.45, delay: Math.min(index * 0.04, 0.32), ease: ease.out }}
+      transition={{
+        duration: 0.45,
+        delay: Math.min(index * 0.04, 0.32),
+        ease: ease.out,
+      }}
       className="group flex flex-col border border-neutral-100 bg-white transition-shadow duration-300 hover:border-neutral-200 hover:shadow-[0_12px_40px_rgba(0,0,0,0.08)]"
     >
       <Link
@@ -760,11 +764,7 @@ export default function BrandWatches({
                   className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 xl:grid-cols-4"
                 >
                   {filteredProducts.map((product, i) => (
-                    <ProductCard
-                      key={product.id}
-                      product={product}
-                      index={i}
-                    />
+                    <ProductCard key={product.id} product={product} index={i} />
                   ))}
                 </motion.div>
               ) : (

@@ -1,13 +1,12 @@
 import type { Metadata } from "next";
-import dynamic from "next/dynamic";
 
 // 1. Direct import for the Hero component (Critical for SEO & LCP)
 // This ensures the main H1 and initial "above-the-fold" content
 // is present in the initial HTML sent to search engines.
 import Hero from "@/app/components/Hero";
-import WatchSlider from "./components/WatchSlider";
-import WatchCarousel from "./components/WatchCarousel";
 import AboutWatch from "./components/AboutWatch";
+import WatchCarousel from "./components/WatchCarousel";
+import WatchSlider from "./components/WatchSlider";
 
 export const metadata: Metadata = {
   title: "Sulux Centre | Luxury Watches & Authentic Timepieces in Nepal",
