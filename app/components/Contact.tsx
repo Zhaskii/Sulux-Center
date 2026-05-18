@@ -22,6 +22,8 @@ import {
   Stagger,
   staggerChild,
 } from "@/app/components/ScrollAnimation";
+import Image from "next/image";
+import contactBG from "@/app/assets/contact.jpg";
 
 // ── Data ──────────────────────────────────────────────────────
 
@@ -251,11 +253,11 @@ export default function ContactPage() {
       <section className="relative min-h-[55vh] flex flex-col justify-end overflow-hidden border-b border-white/[0.06]">
         {/* BG image */}
         <div className="absolute inset-0">
-          <img
-            src="https://images.unsplash.com/photo-1614164185128-e4ec99c436d7?q=80&w=1600&auto=format&fit=crop"
+          <Image
+            src={contactBG}
             alt="Sulux Centre boutique"
             className="w-full h-full object-cover"
-            style={{ filter: "brightness(0.2) saturate(0.7)" }}
+            style={{ filter: "brightness(0.5) saturate(1)" }}
           />
           <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a09]/60 via-transparent to-[#0a0a09]" />
         </div>
