@@ -6,7 +6,7 @@ import Link from "next/link";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { PlusIcon, MinusIcon } from "@heroicons/react/24/outline";
 import { ArrowRight, MessageCircle } from "lucide-react";
-import faqBg from "@/app/assets/faqBG.jpg";
+import faqBg from "@/app/assets/faq.jpg";
 
 // ── Data ──────────────────────────────────────────────────────
 
@@ -223,7 +223,7 @@ export default function FAQ() {
         .hero-vig {
           background:
             radial-gradient(ellipse at center, transparent 10%, rgba(0,0,0,0.7) 100%),
-            linear-gradient(180deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.1) 50%, rgba(255,255,255,1) 100%);
+            linear-gradient(180deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.1) 80%, rgba(255,255,255,1) 100%);
         }
         /* Grain */
         .grain::after {
@@ -258,7 +258,7 @@ export default function FAQ() {
             alt="Sulux Centre FAQ"
             fill
             className="object-cover"
-            style={{ filter: "brightness(0.55) contrast(1.1)" }}
+            style={{ filter: "brightness(0.8) contrast(1.1)" }}
             priority
           />
         </div>
