@@ -203,7 +203,7 @@ export default function WatchCarousel() {
   return (
     <section
       ref={sectionRef}
-      className="relative w-full bg-[#0c0c0b] text-white overflow-hidden flex flex-col"
+      className="relative w-full bg-black text-white overflow-hidden flex flex-col"
       style={{
         minHeight: "100svh",
       }}
@@ -243,21 +243,9 @@ export default function WatchCarousel() {
         .spec-pill:hover { border-color:rgba(255,255,255,0.22)!important; background:rgba(255,255,255,0.06)!important; }
 
         .nav-dot { transition: all 0.35s cubic-bezier(0.16,1,0.3,1); border:none; cursor:pointer; }
-
-        /* Grain */
-        .grain::after {
-          content:''; position:fixed; inset:-200%; width:400%; height:400%;
-          background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
-          opacity:0.018; pointer-events:none; z-index:5;
-          animation:grainMove 0.8s steps(2) infinite;
-        }
-        @keyframes grainMove {
-          0%,100%{transform:translate(0,0)} 25%{transform:translate(2%,3%)} 50%{transform:translate(-2%,1%)} 75%{transform:translate(1%,-2%)}
-        }
       `}</style>
 
-      {/* Grain + dot grid */}
-      <div className="grain pointer-events-none" />
+      {/* Dot grid */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{

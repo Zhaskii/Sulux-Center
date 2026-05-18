@@ -163,7 +163,6 @@ function FeatureSection({
         <AnimatedHeading
           text={section.title}
           className="font-light leading-[0.9] mb-8 text-white text-[40px] sm:text-[60px] md:text-[80px] lg:text-[80px]"
-          // style applied via global cormorant class
         />
 
         <motion.p
@@ -243,7 +242,7 @@ function FeatureSection({
         >
           {/* Reveal mask */}
           <motion.div
-            className="absolute inset-0 bg-[#0a0a09] z-10 origin-left"
+            className="absolute inset-0 bg-black z-10 origin-left"
             initial={{ scaleX: 1 }}
             animate={inView ? { scaleX: 0 } : {}}
             transition={{ duration: 1.1, delay: 0.2, ease: ease.out }}
@@ -261,8 +260,8 @@ function FeatureSection({
           className="absolute inset-0 pointer-events-none"
           style={{
             background: isLeft
-              ? "linear-gradient(to right, rgba(10,10,9,0.7) 0%, transparent 50%)"
-              : "linear-gradient(to left, rgba(10,10,9,0.7) 0%, transparent 50%)",
+              ? "linear-gradient(to right, rgba(0,0,0,0.7) 0%, transparent 50%)"
+              : "linear-gradient(to left, rgba(0,0,0,0.7) 0%, transparent 50%)",
           }}
         />
         <motion.div
@@ -294,7 +293,7 @@ export default function AboutWatch() {
   return (
     <div
       ref={containerRef}
-      className="bg-[#0a0a09] text-white selection:bg-white selection:text-black"
+      className="bg-black text-white selection:bg-white selection:text-black"
     >
       <style>{`
         .display-heading { font-family: var(--font-display); font-size: clamp(3.5rem, 8vw, 7rem); }
@@ -305,12 +304,7 @@ export default function AboutWatch() {
         .btn-black { transition: all 0.25s ease; }
         .about-img:hover img { transform: scale(1.03); }
         .about-img img { transition: transform 0.7s cubic-bezier(0.16,1,0.3,1); }
-        .grain::after { content:'';position:fixed;inset:-200%;width:400%;height:400%;
-          background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
-          opacity:0.022;pointer-events:none;z-index:5;animation:grainMove 0.8s steps(2) infinite; }
-        @keyframes grainMove { 0%,100%{transform:translate(0,0)} 20%{transform:translate(3%,2%)} 40%{transform:translate(-2%,4%)} 60%{transform:translate(2%,-2%)} 80%{transform:translate(-3%,1%)} }
       `}</style>
-      <div className="grain pointer-events-none" />
 
       {/* Scroll progress */}
       <div className="fixed top-0 left-0 right-0 z-50 h-px bg-white/[0.06]">
@@ -451,8 +445,6 @@ export default function AboutWatch() {
                   {/* Bottom fade to black */}
                   <div className="absolute bottom-0 left-0 right-0 h-56 bg-gradient-to-t from-black/30 to-transparent pointer-events-none" />
                 </div>
-                {/* <div className="absolute top-4 left-4 w-8 h-8 border-t-2 border-l-2 border-black/20 pointer-events-none" />
-                <div className="absolute bottom-4 right-4 w-8 h-8 border-b-2 border-r-2 border-black/20 pointer-events-none" /> */}
                 <div className="absolute bottom-8 left-8 bg-black text-white px-5 py-3">
                   <p
                     className="font-black tracking-widest"
@@ -557,7 +549,7 @@ export default function AboutWatch() {
       </section>
 
       {/* BOTTOM CTA */}
-      <FadeUp className="bg-[#0a0a09] border-t border-white/[0.06] px-8 md:px-16 py-16">
+      <FadeUp className="bg-black border-t border-white/[0.06] px-8 md:px-16 py-16">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
           <div>
             <p

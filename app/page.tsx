@@ -33,9 +33,9 @@ export default function Home() {
   return (
     <main>
       <Hero />
-
-      <WatchSlider />
       <WatchCarousel />
+      <WatchSlider />
+
       <AboutWatch />
     </main>
   );

@@ -304,8 +304,8 @@ const Navbar = () => {
             link.mega ? (
               <div key={link.label} className="relative group">
                 <button
-                  className="sulux-link flex items-center gap-1.5 font-bold tracking-[0.14em] uppercase text-neutral-900 transition-opacity duration-200 hover:opacity-45"
-                  style={{ fontSize: "0.72rem" }}
+                  className="sulux-link flex items-center gap-1.5 font-black tracking-[0.14em] uppercase text-neutral-900 transition-opacity duration-200 hover:opacity-45"
+                  style={{ fontSize: "0.85rem" }}
                 >
                   {link.label}
                   <ChevronDown
@@ -320,8 +320,8 @@ const Navbar = () => {
               <Link
                 key={link.label}
                 href={link.href}
-                className="sulux-link font-bold tracking-[0.14em] uppercase text-neutral-900 transition-opacity duration-200 hover:opacity-45"
-                style={{ fontSize: "0.72rem" }}
+                className="sulux-link font-black tracking-[0.14em] uppercase text-neutral-900 transition-opacity duration-200 hover:opacity-45"
+                style={{ fontSize: "0.85rem" }}
               >
                 {link.label}
               </Link>
@@ -438,18 +438,18 @@ const Navbar = () => {
           <div className="search-content flex flex-col items-center justify-center h-[calc(100%-80px)] px-6 sm:px-10">
             <div className="w-full max-w-2xl">
               <p
-                className="text-neutral-300 font-black tracking-[0.38em] uppercase mb-8"
-                style={{ fontSize: "0.46rem" }}
+                className="text-black font-black tracking-[0.38em] uppercase mb-8"
+                style={{ fontSize: "1rem" }}
               >
                 What are you looking for?
               </p>
 
-              <div className="relative border-b-2 border-neutral-200 focus-within:border-neutral-900 transition-colors duration-300">
+              <div className="relative border-b-2 border-black focus-within:border-neutral-900 transition-colors duration-300">
                 <input
                   ref={searchRef}
                   type="text"
                   placeholder="Search watches, brands, models…"
-                  className="w-full bg-transparent text-neutral-900 placeholder-neutral-200 font-light pb-5 outline-none"
+                  className="w-full bg-transparent text-neutral-900 placeholder-neutral-400 font-light pb-5 outline-none"
                   style={{
                     fontSize: "clamp(1.5rem, 4vw, 2.5rem)",
                     letterSpacing: "0.02em",
@@ -464,8 +464,8 @@ const Navbar = () => {
 
               <div className="mt-10">
                 <p
-                  className="text-neutral-300 font-black tracking-[0.3em] uppercase mb-4"
-                  style={{ fontSize: "0.44rem" }}
+                  className="text-black font-black tracking-[0.3em] uppercase mb-4"
+                  style={{ fontSize: "0.6rem" }}
                 >
                   Popular Searches
                 </p>
@@ -479,7 +479,7 @@ const Navbar = () => {
                   ].map((s) => (
                     <button
                       key={s}
-                      className="search-tag border border-neutral-200 text-neutral-400 px-3.5 sm:px-4 py-2 font-medium"
+                      className="search-tag border border-neutral-400 text-black px-3.5 sm:px-4 py-2 font-medium"
                       style={{
                         fontSize: "clamp(0.6rem, 1.4vw, 0.7rem)",
                         letterSpacing: "0.06em",
