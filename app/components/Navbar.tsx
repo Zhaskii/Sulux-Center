@@ -413,15 +413,15 @@ const Navbar = () => {
           }}
         >
           {/* Top bar */}
-          <div className="flex items-center justify-between px-6 sm:px-10 md:px-16 py-4 sm:py-5 border-b border-neutral-100">
+          <div className="flex items-center justify-between px-6 sm:px-10 md:px-16 pt-8 sm:pt-10 border-b border-neutral-100">
             <Image
               src={logo}
               alt="Sulux Centre"
-              className="h-9 md:h-11 w-auto object-contain"
+              className="h-14 md:h-18 w-auto object-contain"
             />
             <button
               onClick={() => setSearchOpen(false)}
-              className="flex items-center gap-2.5 text-neutral-400 hover:text-neutral-900 transition-all duration-200 group"
+              className="flex items-center gap-2.5 text-black hover:text-red-900 transition-all duration-200 group"
             >
               <span
                 className="font-bold tracking-[0.18em] uppercase hidden sm:inline"
@@ -429,7 +429,7 @@ const Navbar = () => {
               >
                 Close
               </span>
-              <div className="w-8 h-8 border border-neutral-200 group-hover:border-neutral-900 flex items-center justify-center transition-colors">
+              <div className="w-8 h-8 border border-black group-hover:border-red-900 flex items-center justify-center transition-colors">
                 <X size={15} strokeWidth={1.8} />
               </div>
             </button>
