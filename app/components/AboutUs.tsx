@@ -423,11 +423,7 @@ export default function AboutUs() {
                   filter: "brightness(0.7) contrast(1.08) saturate(0.82)",
                 }}
               />
-              {/* Bracket corners */}
-              <div className="absolute top-4 left-4 w-9 h-9 border-t-2 border-l-2 border-white/20 pointer-events-none z-20" />
-              <div className="absolute top-4 right-4 w-9 h-9 border-t-2 border-r-2 border-white/10 pointer-events-none z-20" />
-              <div className="absolute bottom-4 left-4 w-9 h-9 border-b-2 border-l-2 border-white/10 pointer-events-none z-20" />
-              <div className="absolute bottom-4 right-4 w-9 h-9 border-b-2 border-r-2 border-white/20 pointer-events-none z-20" />
+
               {/* Year badge */}
               <div className="absolute bottom-6 left-6 bg-black/85 backdrop-blur-sm border border-white/10 px-5 py-4 z-20">
                 <p
@@ -451,7 +447,7 @@ export default function AboutUs() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.4, ease: E }}
-              className="hidden sm:block absolute ml-auto -translate-y-28 translate-x-[calc(100%-2rem)] xl:translate-x-[calc(100%+0rem)] bg-[#0b0b0a] border border-white/12 px-6 py-5 shadow-2xl w-52"
+              className="hidden sm:block absolute ml-auto -translate-y-28  xl:translate-x-[calc(100%+4rem)] bg-[#0b0b0a] border border-white/12 px-6 py-5 shadow-2xl w-52"
             >
               <div className="flex items-center gap-1 mb-2">
                 {[...Array(5)].map((_, i) => (
@@ -465,13 +461,13 @@ export default function AboutUs() {
               </div>
               <p
                 className="text-white font-semibold leading-tight mb-1"
-                style={{ fontSize: "0.72rem" }}
+                style={{ fontSize: "0.8rem" }}
               >
                 Kathmandu's most trusted
               </p>
               <p
                 className="text-white/60 font-light"
-                style={{ fontSize: "0.58rem" }}
+                style={{ fontSize: "0.7rem" }}
               >
                 watch boutique since 1983
               </p>

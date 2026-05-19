@@ -10,7 +10,7 @@ import {
   EnvelopeIcon,
 } from "@heroicons/react/24/outline";
 import { ArrowRight, Send, Check } from "lucide-react";
-import logo from "@/app/assets/Sulux-Logo.svg";
+import logo from "@/app/assets/sulux.png";
 
 // ── Data ──────────────────────────────────────────────────────
 
@@ -72,7 +72,7 @@ const SOCIALS = [
   {
     label: "Instagram",
     short: "IG",
-    href: "https://instagram.com",
+    href: "https://www.instagram.com/sulux.centre.nepal/",
     Icon: () => (
       <svg
         width="14"
@@ -93,7 +93,7 @@ const SOCIALS = [
   {
     label: "Facebook",
     short: "FB",
-    href: "https://facebook.com",
+    href: "https://www.facebook.com/sulux.centre.nepal",
     Icon: () => (
       <svg
         width="14"
@@ -112,7 +112,7 @@ const SOCIALS = [
   {
     label: "TikTok",
     short: "TK",
-    href: "https://tiktok.com",
+    href: "https://www.tiktok.com/@sulux.centre.nepal",
     Icon: () => (
       <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
         <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.76a4.85 4.85 0 0 1-1.01-.07z" />
@@ -135,7 +135,7 @@ const BRANDS = [
 ];
 
 const STORE_HOURS = [
-  { days: "Sunday – Friday", hours: "10:00 AM – 7:00 PM" },
+  { days: "Sunday – Friday", hours: "11:00 AM – 8:00 PM" },
   { days: "Saturday", hours: "11:00 AM – 5:00 PM" },
 ];
 

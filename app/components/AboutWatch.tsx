@@ -1,32 +1,18 @@
 "use client";
 
-import React, { useRef } from "react";
-import { motion, useScroll, useTransform, useInView } from "framer-motion";
-import {
-  ArrowRight,
-  Shield,
-  Droplets,
-  Package,
-  RotateCcw,
-  Clock,
-  Award,
-} from "lucide-react";
-import Link from "next/link";
 import {
   FadeUp,
-  SlideIn,
-  ScaleIn,
-  Stagger,
-  staggerChild,
-  LineReveal,
   NumberCount,
+  SlideIn,
   ease,
 } from "@/app/components/ScrollAnimation";
+import { motion, useInView, useScroll, useTransform } from "framer-motion";
+import { ArrowRight, Award, Clock, Package, Shield } from "lucide-react";
+import Link from "next/link";
+import { useRef } from "react";
 
 const FEATURES = [
   { Icon: Package, label: "Free Delivery", sub: "Across Nepal" },
-  { Icon: Droplets, label: "Waterproof", sub: "Up to 100m" },
-  { Icon: RotateCcw, label: "14-Day Returns", sub: "No questions asked" },
   { Icon: Shield, label: "Authenticated", sub: "100% Guaranteed" },
   { Icon: Clock, label: "5-Year Warranty", sub: "Movement guaranteed" },
   { Icon: Award, label: "Official Retailer", sub: "Est. 1983" },

@@ -12,11 +12,12 @@ import {
   Menu,
   ArrowRight,
 } from "lucide-react";
-import logo from "@/app/assets/Sulux-Logo.svg";
+import logo from "@/app/assets/sulux.png";
 
 // ── Nav links config ──────────────────────────────────────────────────────────
 const NAV_LINKS = [
   { label: "Home", href: "/" },
+  { label: "About Us", href: "/about" },
   {
     label: "Shop",
     href: "/shop",
@@ -55,7 +56,7 @@ const NAV_LINKS = [
       },
     ],
   },
-  { label: "About Us", href: "/about" },
+  { label: "Store", href: "/store" },
   { label: "FAQ", href: "/faq" },
   { label: "Contact", href: "/contact" },
 ];
@@ -386,7 +387,7 @@ const Navbar = () => {
           <Link
             href="/contact"
             className="book-cta hidden md:flex items-center gap-2 bg-neutral-900 text-white font-black px-4 xl:px-5 py-2.5"
-            style={{ fontSize: "0.58rem", letterSpacing: "0.2em" }}
+            style={{ fontSize: "0.8rem", letterSpacing: "0.2em" }}
           >
             Book Visit
             <ArrowRight size={10} strokeWidth={2} />

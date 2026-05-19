@@ -291,24 +291,6 @@ const HomePage = () => {
           <span className="font-black tracking-widest">CHAT</span>
           <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-green-400 animate-pulse ml-0.5" />
         </button>
-
-        {/* Rewards button */}
-        <Link
-          href="/rewards"
-          className="fw-btn group flex items-center gap-2 sm:gap-3 bg-white text-black font-black
-            px-3.5 sm:px-5 py-2.5 sm:py-3.5 shadow-xl hover:bg-white/88"
-          style={{
-            fontSize: "clamp(0.52rem, 1.4vw, 0.6rem)",
-            letterSpacing: "0.14em",
-          }}
-        >
-          <ShoppingBag size={13} strokeWidth={2} className="flex-shrink-0" />
-          <span className="tracking-widest">REWARDS</span>
-          <ArrowRight
-            size={10}
-            className="opacity-30 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-300"
-          />
-        </Link>
       </div>
     </div>
   );
