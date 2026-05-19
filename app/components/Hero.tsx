@@ -272,8 +272,7 @@ const HomePage = () => {
             </div>
           </div>
         )}
-
-        {/* Chat toggle button */}
+        {/* Chat toggle button
         <button
           onClick={() => setChatOpen(!chatOpen)}
           className="fw-btn group flex items-center gap-2 sm:gap-3 bg-black/80 backdrop-blur-md text-white
@@ -290,7 +289,7 @@ const HomePage = () => {
           />
           <span className="font-black tracking-widest">CHAT</span>
           <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-green-400 animate-pulse ml-0.5" />
-        </button>
+        </button> */}
       </div>
     </div>
   );
