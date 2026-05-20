@@ -258,7 +258,7 @@ export default function FAQ() {
             alt="Sulux Centre FAQ"
             fill
             className="object-cover"
-            style={{ filter: "brightness(0.8) contrast(1.1)" }}
+            style={{ filter: "brightness(0.9) contrast(1.1)" }}
             priority
           />
         </div>

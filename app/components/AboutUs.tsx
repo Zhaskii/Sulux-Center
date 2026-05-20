@@ -12,6 +12,9 @@ import {
   Star,
 } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
+import bgTime from "@/app/assets/store-pic/5.jpg";
+import bgImage from "@/app/assets/store-pic/9.jpg";
 
 // ── Data ─────────────────────────────────────────────────────────────────────
 
@@ -79,7 +82,7 @@ const TEAM = [
 
 const STORE_INFO = [
   { label: "ADDRESS", value: "New Road, Kathmandu" },
-  { label: "HOURS", value: "Sun–Fri  10AM – 7PM" },
+  { label: "HOURS", value: "Sun–Fri  11AM – 8PM" },
   { label: "PHONE", value: "+977 01-XXXXXXX" },
   { label: "EMAIL", value: "info@suluxcentre.com" },
 ];
@@ -227,7 +230,7 @@ export default function AboutUs() {
             aria-hidden={true}
             className="h-full w-full min-h-full object-cover"
             style={{
-              filter: "brightness(0.65) contrast(1) saturate(1)",
+              filter: "brightness(0.8) contrast(1) saturate(1)",
             }}
           >
             <source src="/mp4/about.mp4" type="video/mp4" />
@@ -415,8 +418,8 @@ export default function AboutUs() {
                 viewport={{ once: true }}
                 transition={{ duration: 1.1, ease: E }}
               />
-              <img
-                src="https://cdn2.blanxer.com/hero_image/681989ba3918e530ce794d39/68e3d9df5d61234c4ebd7e79.webp"
+              <Image
+                src={bgTime}
                 alt="Sulux Centre showroom"
                 className="w-full h-full object-cover"
                 style={{
@@ -856,11 +859,11 @@ export default function AboutUs() {
       ════════════════════════════════════════════════════ */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0">
-          <img
-            src="https://images.unsplash.com/photo-1614164185128-e4ec99c436d7?q=80&w=1600&auto=format&fit=crop"
-            alt=""
+          <Image
+            src={bgImage}
+            alt="TimePieces"
             className="w-full h-full object-cover"
-            style={{ filter: "brightness(0.15) saturate(0.6)" }}
+            style={{ filter: "brightness(1) saturate(1.2)" }}
           />
           <div
             className="absolute inset-0"
@@ -961,14 +964,14 @@ export default function AboutUs() {
             {STORE_INFO.map(({ label, value }) => (
               <div key={label}>
                 <p
-                  className="text-white/52 font-black tracking-[0.28em] uppercase mb-1.5"
-                  style={{ fontSize: "0.42rem" }}
+                  className="text-white font-black tracking-[0.28em] uppercase mb-1.5"
+                  style={{ fontSize: "1rem" }}
                 >
                   {label}
                 </p>
                 <p
                   className="text-white/80 font-light"
-                  style={{ fontSize: "0.77rem" }}
+                  style={{ fontSize: "0.8rem" }}
                 >
                   {value}
                 </p>
