@@ -337,24 +337,6 @@ export default function AboutUs() {
             </Link>
           </motion.div>
         </motion.div>
-
-        {/* Scroll cue */}
-        <motion.div
-          className="relative z-10 flex flex-col items-center gap-2 pb-10"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.6 }}
-        >
-          <span
-            className="text-white/45 font-bold tracking-[0.32em] uppercase"
-            style={{ fontSize: "0.44rem" }}
-          >
-            Scroll
-          </span>
-          <div className="bounce-caret">
-            <ChevronDown size={13} className="text-white/45" />
-          </div>
-        </motion.div>
       </section>
 
       {/* ════════════════════════════════════════════════════
