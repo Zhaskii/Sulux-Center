@@ -1,12 +1,12 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import faqBg from "@/app/assets/faq.jpg";
+import { MinusIcon, PlusIcon } from "@heroicons/react/24/outline";
+import { AnimatePresence, motion, useInView } from "framer-motion";
+import { ArrowRight, MessageCircle } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion, useInView, AnimatePresence } from "framer-motion";
-import { PlusIcon, MinusIcon } from "@heroicons/react/24/outline";
-import { ArrowRight, MessageCircle } from "lucide-react";
-import faqBg from "@/app/assets/faq.jpg";
+import { useRef, useState } from "react";
 
 // ── Data ──────────────────────────────────────────────────────
 
@@ -289,7 +289,7 @@ export default function FAQ() {
             <div className="w-5 h-px bg-white/50" />
             <span
               className="text-white/80 font-bold tracking-[0.32em] uppercase"
-              style={{ fontSize: "0.6rem" }}
+              style={{ fontSize: "0.8rem" }}
             >
               Sulux Centre · Horological Expertise
             </span>

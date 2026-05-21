@@ -1,18 +1,18 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
-import Link from "next/link";
-import Image from "next/image";
-import {
-  Search,
-  User,
-  ShoppingBag,
-  ChevronDown,
-  X,
-  Menu,
-  ArrowRight,
-} from "lucide-react";
 import logo from "@/app/assets/sulux.png";
+import {
+  ArrowRight,
+  ChevronDown,
+  Menu,
+  Search,
+  ShoppingBag,
+  User,
+  X,
+} from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
 
 // ── Nav links config ──────────────────────────────────────────────────────────
 const NAV_LINKS = [
@@ -25,34 +25,41 @@ const NAV_LINKS = [
       {
         heading: "By Category",
         items: [
-          "Dive Watches",
-          "Dress Watches",
-          "Chronographs",
-          "Smartwatches",
-          "Vintage",
+          { label: "Dive Watches", href: "/shop/dive-watches" },
+          { label: "Dress Watches", href: "/shop/dress-watches" },
+          { label: "Chronographs", href: "/shop/chronographs" },
+          { label: "Smartwatches", href: "/shop/smartwatches" },
+          { label: "Vintage", href: "/shop/vintage" },
         ],
       },
       {
         heading: "By Brand",
         items: [
-          "Rado",
-          "Bell & Ross",
-          "Norqain",
-          "Oris",
-          "Raymond Weil",
-          "Tissot",
-          "TW Steel",
-          "Victorinox",
-          "Traser",
-          "Tag Heuer",
-          "Nuun",
-          "Baltic",
-          "Maurice Lacroix",
+          { label: "Rado", href: "/shop/rado" },
+          { label: "Bell & Ross", href: "/shop/bell-ross" },
+          { label: "Norqain", href: "/shop/norqain" },
+          { label: "Oris", href: "/shop/oris" },
+          { label: "Raymond Weil", href: "/shop/raymond-weil" },
+          { label: "Tissot", href: "/shop/tissot" },
+          { label: "TW Steel", href: "/shop/tw-steel" },
+          { label: "Victorinox", href: "/shop/victorinox" },
+          { label: "Traser", href: "/shop/traser" },
+          { label: "Tag Heuer", href: "/shop/tag-heuer" },
+          { label: "Nuun", href: "/shop/nuun" },
+          { label: "Baltic", href: "/shop/baltic" },
+          { label: "Maurice Lacroix", href: "/shop/maurice-lacroix" },
         ],
       },
       {
         heading: "Collections",
-        items: ["1975", "AIKON", "AIKONIC", "FIABA", "MASTERPIECE", "PONTOS"],
+        items: [
+          { label: "1975", href: "/shop/1975" },
+          { label: "AIKON", href: "/shop/aikon" },
+          { label: "AIKONIC", href: "/shop/aikonic" },
+          { label: "FIABA", href: "/shop/fiaba" },
+          { label: "MASTERPIECE", href: "/shop/masterpiece" },
+          { label: "PONTOS", href: "/shop/pontos" },
+        ],
       },
     ],
   },
@@ -65,11 +72,11 @@ const NAV_LINKS = [
 function MegaMenu({
   columns,
 }: {
-  columns: { heading: string; items: string[] }[];
+  columns: { heading: string; items: { label: string; href: string }[] }[];
 }) {
   return (
     <div
-      className="
+      className="mt-5
       absolute top-[calc(100%+1px)] left-1/2 -translate-x-1/2
       w-[920px] bg-white text-black
       border-t-[2.5px] border-neutral-900
@@ -101,14 +108,14 @@ function MegaMenu({
               className={`space-y-0 ${isBrand ? "grid grid-cols-2 gap-x-6" : ""}`}
             >
               {col.items.map((item) => (
-                <li key={item}>
+                <li key={item.label}>
                   <Link
-                    href="/shop"
+                    href={item.href}
                     className="group/item flex items-center gap-0 py-2 text-neutral-500 hover:text-neutral-900 font-semibold transition-all duration-200"
                     style={{ fontSize: "0.82rem", letterSpacing: "0.04em" }}
                   >
                     <span className="w-0 h-px bg-neutral-900 group-hover/item:w-3 mr-0 group-hover/item:mr-2.5 transition-all duration-250 flex-shrink-0" />
-                    {item}
+                    {item.label}
                   </Link>
                 </li>
               ))}
@@ -156,6 +163,15 @@ const Navbar = () => {
   const [mobileExpandedSubSection, setMobileExpandedSubSection] = useState<
     string | null
   >(null);
+
+  // Currency Dropdown States
+  const [currency, setCurrency] = useState<{ code: string; flag: string }>({
+    code: "NPR",
+    flag: "🇳🇵",
+  });
+  const [currencyOpen, setCurrencyOpen] = useState(false);
+  const currencyRef = useRef<HTMLDivElement>(null);
+
   const searchRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -174,6 +190,20 @@ const Navbar = () => {
       document.body.style.overflow = "";
     };
   }, [mobileOpen]);
+
+  // Close currency dropdown when user clicks outside of it
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        currencyRef.current &&
+        !currencyRef.current.contains(event.target as Node)
+      ) {
+        setCurrencyOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   return (
     <>
@@ -332,20 +362,52 @@ const Navbar = () => {
 
         {/* ── Right Actions ── */}
         <div className="flex items-center gap-4 md:gap-5">
-          {/* Locale — xl only */}
-          <div className="hidden xl:flex items-center gap-1.5 cursor-pointer hover:opacity-45 transition-opacity">
-            <span style={{ fontSize: "0.75rem" }}>🇳🇵</span>
-            <span
-              className="text-neutral-900 font-bold tracking-wider"
-              style={{ fontSize: "0.66rem" }}
+          {/* Interactive Currency Dropdown Selector */}
+          <div ref={currencyRef} className="hidden xl:block relative">
+            <button
+              onClick={() => setCurrencyOpen((prev) => !prev)}
+              className="flex items-center gap-1.5 cursor-pointer hover:opacity-45 transition-opacity outline-none"
             >
-              NPR
-            </span>
-            <ChevronDown
-              size={10}
-              strokeWidth={2.5}
-              className="text-neutral-500"
-            />
+              <span style={{ fontSize: "0.75rem" }}>{currency.flag}</span>
+              <span
+                className="text-neutral-900 font-bold tracking-wider"
+                style={{ fontSize: "0.8rem" }}
+              >
+                {currency.code}
+              </span>
+              <ChevronDown
+                size={10}
+                strokeWidth={2.5}
+                className={`text-neutral-500 transition-transform duration-200 ${currencyOpen ? "rotate-180" : ""}`}
+              />
+            </button>
+
+            {/* Dropdown Box Menu */}
+            {currencyOpen && (
+              <div
+                className={`absolute right-0 top-[calc(100%+12px)] border border-neutral-100 shadow-[0_8px_24px_rgba(0,0,0,0.08)] py-1.5 w-24 z-50 animate-[overlayIn_0.15s_ease_forwards]
+                ${scrolled ? "bg-white/97 backdrop-blur-[28px]" : "bg-white/75 backdrop-blur-[12px]"}`}
+              >
+                <button
+                  onClick={() => {
+                    setCurrency({ code: "NPR", flag: "🇳🇵" });
+                    setCurrencyOpen(false);
+                  }}
+                  className={`w-full flex items-center gap-2 px-3 py-2 text-left hover:bg-neutral-900/5 text-neutral-900 font-bold tracking-wider transition-colors text-[0.8rem] ${currency.code === "NPR" ? "bg-neutral-900/5" : ""}`}
+                >
+                  <span>🇳🇵</span> NPR
+                </button>
+                <button
+                  onClick={() => {
+                    setCurrency({ code: "USD", flag: "🇺🇸" });
+                    setCurrencyOpen(false);
+                  }}
+                  className={`w-full flex items-center gap-2 px-3 py-2 text-left hover:bg-neutral-900/5 text-neutral-900 font-bold tracking-wider transition-colors text-[0.8rem] ${currency.code === "USD" ? "bg-neutral-900/5" : ""}`}
+                >
+                  <span>🇺🇸</span> USD
+                </button>
+              </div>
+            )}
           </div>
           <div className="hidden xl:block h-3.5 w-px bg-neutral-200" />
 
@@ -594,8 +656,8 @@ const Navbar = () => {
                             <div className="pb-3 px-6 border-l-2 border-neutral-200 ml-6 mb-3">
                               {section.items.map((item) => (
                                 <Link
-                                  key={item}
-                                  href="/shop"
+                                  key={item.label}
+                                  href={item.href}
                                   onClick={() => setMobileOpen(false)}
                                   className="block py-2 text-neutral-500 hover:text-neutral-900 font-semibold transition-colors"
                                   style={{
@@ -603,7 +665,7 @@ const Navbar = () => {
                                     letterSpacing: "0.04em",
                                   }}
                                 >
-                                  {item}
+                                  {item.label}
                                 </Link>
                               ))}
                             </div>

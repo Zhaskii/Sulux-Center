@@ -1,20 +1,19 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import bgTime from "@/app/assets/store-pic/5.jpg";
+import bgImage from "@/app/assets/store-pic/9.jpg";
 import { motion, useScroll, useTransform } from "framer-motion";
 import {
-  ShieldCheck,
+  ArrowRight,
   Award,
   Clock,
   MapPin,
-  ArrowRight,
-  ChevronDown,
+  ShieldCheck,
   Star,
 } from "lucide-react";
-import Link from "next/link";
 import Image from "next/image";
-import bgTime from "@/app/assets/store-pic/5.jpg";
-import bgImage from "@/app/assets/store-pic/9.jpg";
+import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
 
 // ── Data ─────────────────────────────────────────────────────────────────────
 
@@ -273,7 +272,7 @@ export default function AboutUs() {
             <div className="w-6 h-px bg-white/25" />
             <span
               className="text-white/60 font-bold tracking-[0.38em] uppercase about-lead-shadow"
-              style={{ fontSize: "0.48rem" }}
+              style={{ fontSize: "0.8rem" }}
             >
               Our Heritage
             </span>
@@ -465,7 +464,7 @@ export default function AboutUs() {
               <div className="w-5 h-px bg-white/25" />
               <span
                 className="text-white/58 font-bold tracking-[0.32em] uppercase"
-                style={{ fontSize: "0.48rem" }}
+                style={{ fontSize: "0.8rem" }}
               >
                 The Legacy
               </span>
@@ -564,7 +563,7 @@ export default function AboutUs() {
                 <div className="w-5 h-px bg-white/25" />
                 <span
                   className="text-white/58 font-bold tracking-[0.32em] uppercase"
-                  style={{ fontSize: "0.48rem" }}
+                  style={{ fontSize: "0.8rem" }}
                 >
                   What We Stand For
                 </span>
@@ -664,7 +663,7 @@ export default function AboutUs() {
           <div className="w-6 h-px bg-white/25" />
           <span
             className="text-white/58 font-bold tracking-[0.32em] uppercase"
-            style={{ fontSize: "0.48rem" }}
+            style={{ fontSize: "0.8rem" }}
           >
             Our Journey
           </span>
@@ -755,7 +754,7 @@ export default function AboutUs() {
                 <div className="w-5 h-px bg-white/25" />
                 <span
                   className="text-white/58 font-bold tracking-[0.32em] uppercase"
-                  style={{ fontSize: "0.48rem" }}
+                  style={{ fontSize: "0.8rem" }}
                 >
                   The People
                 </span>
@@ -875,7 +874,7 @@ export default function AboutUs() {
             <MapPin size={13} strokeWidth={1.5} className="text-white/58" />
             <span
               className="text-white/58 font-bold tracking-[0.3em] uppercase"
-              style={{ fontSize: "0.48rem" }}
+              style={{ fontSize: "0.8rem" }}
             >
               New Road, Kathmandu, Nepal
             </span>

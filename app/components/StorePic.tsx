@@ -1,23 +1,24 @@
 "use client";
 
-import React, { useState, useRef } from "react";
-import Image from "next/image";
 import { motion, useInView } from "framer-motion";
 import { ArrowRight, Maximize2 } from "lucide-react";
+import Image from "next/image";
+import { useRef, useState } from "react";
 
 import Lightbox from "yet-another-react-lightbox";
-import "yet-another-react-lightbox/styles.css";
-import Zoom from "yet-another-react-lightbox/plugins/zoom";
-import Slideshow from "yet-another-react-lightbox/plugins/slideshow";
-import Fullscreen from "yet-another-react-lightbox/plugins/fullscreen";
-import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";
-import "yet-another-react-lightbox/plugins/thumbnails.css";
-import Counter from "yet-another-react-lightbox/plugins/counter";
-import "yet-another-react-lightbox/plugins/counter.css";
 import Captions from "yet-another-react-lightbox/plugins/captions";
 import "yet-another-react-lightbox/plugins/captions.css";
+import Counter from "yet-another-react-lightbox/plugins/counter";
+import "yet-another-react-lightbox/plugins/counter.css";
+import Fullscreen from "yet-another-react-lightbox/plugins/fullscreen";
+import Slideshow from "yet-another-react-lightbox/plugins/slideshow";
+import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";
+import "yet-another-react-lightbox/plugins/thumbnails.css";
+import Zoom from "yet-another-react-lightbox/plugins/zoom";
+import "yet-another-react-lightbox/styles.css";
 
 import img1 from "@/app/assets/store-pic/1.jpg";
+import img10 from "@/app/assets/store-pic/10.jpg";
 import img2 from "@/app/assets/store-pic/2.jpg";
 import img3 from "@/app/assets/store-pic/3.jpg";
 import img4 from "@/app/assets/store-pic/4.jpg";
@@ -26,7 +27,6 @@ import img6 from "@/app/assets/store-pic/6.jpg";
 import img7 from "@/app/assets/store-pic/7.jpg";
 import img8 from "@/app/assets/store-pic/8.jpg";
 import img9 from "@/app/assets/store-pic/9.jpg";
-import img10 from "@/app/assets/store-pic/10.jpg";
 
 const IMAGES = [
   {
@@ -297,7 +297,7 @@ export default function StorePic() {
           <div className="w-5 h-px bg-neutral-400" />
           <span
             className="text-neutral-400 font-black tracking-[0.32em] uppercase"
-            style={{ fontSize: "0.5rem" }}
+            style={{ fontSize: "0.8rem" }}
           >
             Sulux Centre Boutique · Est. 1983
           </span>
@@ -406,7 +406,7 @@ export default function StorePic() {
                   "var(--font-display,'Cormorant Garamond',Georgia,serif)",
               }}
             >
-              New Road, Kathmandu · Open Sun–Fri 10AM–7PM
+              New Road, Kathmandu · Open Sun–Fri 11AM–8PM
             </p>
           </div>
           <button

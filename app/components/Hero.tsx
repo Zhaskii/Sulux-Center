@@ -1,14 +1,8 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import { ArrowRight, X } from "lucide-react";
 import Link from "next/link";
-import {
-  ShoppingBag,
-  ArrowRight,
-  MessageCircle,
-  ChevronDown,
-  X,
-} from "lucide-react";
+import React, { useEffect, useRef, useState } from "react";
 
 const STATS = [
   { value: "40+", label: "Years of Trust" },

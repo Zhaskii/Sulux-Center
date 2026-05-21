@@ -1,17 +1,17 @@
 "use client";
 
-import React, { useState, useEffect, useRef, useCallback } from "react";
-import Image from "next/image";
+import { ease } from "@/app/components/ScrollAnimation";
+import { AnimatePresence, motion, useInView } from "framer-motion";
 import {
   ArrowLeft,
   ArrowRight,
-  ShoppingBag,
+  Eye,
   Heart,
   Plus,
-  Eye,
+  ShoppingBag,
 } from "lucide-react";
-import { motion, useInView, AnimatePresence } from "framer-motion";
-import { ease } from "@/app/components/ScrollAnimation";
+import Image from "next/image";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 const WATCHES = [
   {

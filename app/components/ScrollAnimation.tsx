@@ -1,9 +1,3 @@
-// ─────────────────────────────────────────────────────────────────────────────
-// scroll-animations.tsx
-// Shared scroll-reveal primitives used across all homepage sections.
-// All animations use framer-motion with spring/ease presets for a
-// premium, editorial feel.
-// ─────────────────────────────────────────────────────────────────────────────
 "use client";
 
 import React, { useRef } from "react";

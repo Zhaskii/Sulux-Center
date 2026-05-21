@@ -1,29 +1,20 @@
 "use client";
 
-import React, { useState, useRef } from "react";
-import { motion, useInView } from "framer-motion";
+import contactBG from "@/app/assets/contact.jpg";
+import { FadeIn, FadeUp, SlideIn } from "@/app/components/ScrollAnimation";
+import { motion } from "framer-motion";
 import {
+  ArrowRight,
+  ChevronDown,
+  Clock,
+  Mail,
   MapPin,
   Phone,
-  Mail,
-  Clock,
-  ArrowRight,
   Send,
-  CheckCircle,
-  ChevronDown,
 } from "lucide-react";
-import Link from "next/link";
-import {
-  FadeUp,
-  FadeIn,
-  SlideIn,
-  LineReveal,
-  ease,
-  Stagger,
-  staggerChild,
-} from "@/app/components/ScrollAnimation";
 import Image from "next/image";
-import contactBG from "@/app/assets/contact.jpg";
+import Link from "next/link";
+import React, { useState } from "react";
 
 // ── Data ──────────────────────────────────────────────────────
 
@@ -282,8 +273,8 @@ export default function ContactPage() {
             <div className="flex items-center gap-3 mb-6">
               <div className="w-5 h-px bg-white/30" />
               <span
-                className="text-white/30 font-bold tracking-[0.32em] uppercase"
-                style={{ fontSize: "0.5rem" }}
+                className="text-white/50 font-bold tracking-[0.32em] uppercase"
+                style={{ fontSize: "0.8rem" }}
               >
                 Get in Touch
               </span>

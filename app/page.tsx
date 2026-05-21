@@ -7,7 +7,6 @@ import Hero from "@/app/components/Hero";
 import AboutWatch from "./components/AboutWatch";
 import WatchCarousel from "./components/WatchCarousel";
 import WatchSlider from "./components/WatchSlider";
-import BrandWatches from "./components/BrandWatches";
 
 export const metadata: Metadata = {
   title: "Sulux Centre | Luxury Watches & Authentic Timepieces in Nepal",
@@ -35,7 +34,6 @@ export default function Home() {
       <Hero />
       <WatchCarousel />
       <WatchSlider />
-      {/* <BrandWatches/> */}
       <AboutWatch />
     </main>
   );

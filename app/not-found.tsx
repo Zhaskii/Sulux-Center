@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import { ArrowRight, Clock, Home, Search, ShoppingBag } from "lucide-react";
 import Link from "next/link";
-import { ArrowRight, Search, Clock, Home, ShoppingBag } from "lucide-react";
+import { useEffect, useState } from "react";
 
 const QUICK_LINKS = [
   {
@@ -57,9 +57,7 @@ export default function NotFound() {
     130 - Math.cos((deg * Math.PI) / 180) * len;
 
   return (
-    <div
-      className="relative min-h-screen w-full bg-[#0a0a09] text-white overflow-hidden flex flex-col"
-    >
+    <div className="relative min-h-screen w-full bg-[#0a0a09] text-white overflow-hidden flex flex-col">
       <style>{`
         .cormorant { font-family: var(--font-display); }
 

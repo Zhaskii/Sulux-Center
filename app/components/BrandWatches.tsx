@@ -10,10 +10,10 @@ import {
   X,
   ShoppingBag,
   ArrowUpDown,
+  ArrowRight,
 } from "lucide-react";
-import { ease } from "@/app/components/ScrollAnimation";
 
-// ── Types ─────────────────────────────────────────────────────────────────────
+// ── Types (unchanged) ─────────────────────────────────────────
 
 type ProductStatus = "in_stock" | "out_of_stock" | "variants";
 
@@ -31,21 +31,13 @@ export type WatchProduct = {
   status: ProductStatus;
   createdAt: number;
 };
-
-export type FilterGroup = {
-  id: string;
-  label: string;
-  options: string[];
-};
-
+export type FilterGroup = { id: string; label: string; options: string[] };
 export type BrandWatchesProps = {
   brandName?: string;
   products?: WatchProduct[];
 };
 
-// ── Config ────────────────────────────────────────────────────────────────────
-
-const ACCENT = "#b42318";
+// ── Config ────────────────────────────────────────────────────
 
 const FILTER_GROUPS: FilterGroup[] = [
   {
@@ -94,20 +86,15 @@ const FILTER_GROUPS: FilterGroup[] = [
       "Yellow Gold",
     ],
   },
-  {
-    id: "movement",
-    label: "Movement",
-    options: ["Automatic", "Quartz"],
-  },
+  { id: "movement", label: "Movement", options: ["Automatic", "Quartz"] },
 ];
 
 const SORT_OPTIONS = [
   { value: "newest", label: "Newest" },
-  { value: "price_asc", label: "Price: Low to High" },
-  { value: "price_desc", label: "Price: High to Low" },
+  { value: "price_asc", label: "Price: Low → High" },
+  { value: "price_desc", label: "Price: High → Low" },
   { value: "name", label: "Name: A–Z" },
 ] as const;
-
 type SortValue = (typeof SORT_OPTIONS)[number]["value"];
 
 const DEFAULT_PRODUCTS: WatchProduct[] = [
@@ -293,37 +280,44 @@ const DEFAULT_PRODUCTS: WatchProduct[] = [
   },
 ];
 
-// ── Helpers ───────────────────────────────────────────────────────────────────
+// ── Helpers ───────────────────────────────────────────────────
 
-function formatPrice(amount: number) {
-  return `Rs. ${amount.toLocaleString("en-IN")}`;
-}
-
-function parsePriceInput(value: string) {
-  const n = parseInt(value.replace(/\D/g, ""), 10);
+const formatPrice = (n: number) => `Rs. ${n.toLocaleString("en-IN")}`;
+const parsePriceInput = (v: string) => {
+  const n = parseInt(v.replace(/\D/g, ""), 10);
   return Number.isFinite(n) ? n : null;
-}
-
+};
 type ActiveFilters = Record<string, Set<string>>;
 
 function productMatchesFilters(
-  product: WatchProduct,
+  p: WatchProduct,
   filters: ActiveFilters,
-  priceMin: number | null,
-  priceMax: number | null,
+  min: number | null,
+  max: number | null,
 ) {
-  if (priceMin !== null && product.price < priceMin) return false;
-  if (priceMax !== null && product.price > priceMax) return false;
-
-  for (const [key, selected] of Object.entries(filters)) {
-    if (selected.size === 0) continue;
-    const value = product[key as keyof WatchProduct];
-    if (typeof value === "string" && !selected.has(value)) return false;
+  if (min !== null && p.price < min) return false;
+  if (max !== null && p.price > max) return false;
+  for (const [key, sel] of Object.entries(filters)) {
+    if (sel.size === 0) continue;
+    const val = p[key as keyof WatchProduct];
+    if (typeof val === "string" && !sel.has(val)) return false;
   }
   return true;
 }
 
-// ── Subcomponents ─────────────────────────────────────────────────────────────
+const E = [0.16, 1, 0.3, 1] as const;
+
+// ── Status config ─────────────────────────────────────────────
+
+const STATUS_CONFIG = {
+  in_stock: { label: "In Stock", dot: "bg-green-500" },
+  out_of_stock: { label: "Sold Out", dot: "bg-neutral-400" },
+  variants: { label: "Variants", dot: "bg-neutral-700" },
+};
+
+// ══════════════════════════════════════════════════════════════
+//  FILTER CHECKBOX
+// ══════════════════════════════════════════════════════════════
 
 function FilterCheckbox({
   id,
@@ -339,22 +333,18 @@ function FilterCheckbox({
   return (
     <label
       htmlFor={id}
-      className="group flex cursor-pointer items-center gap-3 py-1.5"
+      className="group flex cursor-pointer items-center gap-3 py-1.5 select-none"
     >
       <span
-        className={`flex h-4 w-4 flex-shrink-0 items-center justify-center border transition-all duration-200 ${
-          checked
-            ? "border-[var(--accent)] bg-[var(--accent)]"
-            : "border-neutral-300 bg-white group-hover:border-neutral-500"
-        }`}
+        className={`flex h-[14px] w-[14px] flex-shrink-0 items-center justify-center border transition-all duration-200 ${checked ? "border-neutral-900 bg-neutral-900" : "border-neutral-300 bg-white group-hover:border-neutral-600"}`}
       >
         {checked && (
           <svg
             viewBox="0 0 10 8"
-            className="h-2.5 w-2.5 text-white"
+            className="h-[8px] w-[8px] text-white"
             fill="none"
             stroke="currentColor"
-            strokeWidth="2"
+            strokeWidth="2.2"
           >
             <path d="M1 4l3 3 5-6" />
           </svg>
@@ -367,12 +357,18 @@ function FilterCheckbox({
         onChange={onChange}
         className="sr-only"
       />
-      <span className="text-[0.82rem] text-neutral-600 transition-colors group-hover:text-neutral-900">
+      <span
+        className={`text-[0.78rem] transition-colors duration-200 ${checked ? "font-semibold text-neutral-900" : "text-neutral-500 group-hover:text-neutral-900"}`}
+      >
         {label}
       </span>
     </label>
   );
 }
+
+// ══════════════════════════════════════════════════════════════
+//  FILTER SECTION (accordion)
+// ══════════════════════════════════════════════════════════════
 
 function FilterSection({
   group,
@@ -382,62 +378,69 @@ function FilterSection({
 }: {
   group: FilterGroup;
   filters: ActiveFilters;
-  onToggle: (groupId: string, option: string) => void;
+  onToggle: (g: string, o: string) => void;
   defaultOpen?: boolean;
 }) {
   const [open, setOpen] = useState(defaultOpen);
   const selected = filters[group.id] ?? new Set();
 
   return (
-    <motion.div
-      layout
-      className="border-b border-neutral-100 py-5 last:border-b-0"
-    >
+    <div className="border-b border-neutral-100 py-4 last:border-b-0">
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className="mb-3 flex w-full items-center justify-between text-left"
+        className="flex w-full items-center justify-between mb-2"
       >
-        <span className="text-[0.7rem] font-semibold uppercase tracking-[0.18em] text-neutral-800">
+        <span className="text-[0.6rem] font-black tracking-[0.24em] uppercase text-neutral-800">
           {group.label}
+          {selected.size > 0 && (
+            <span className="ml-2 inline-flex items-center justify-center w-4 h-4 bg-neutral-900 text-white text-[0.45rem] font-black rounded-sm">
+              {selected.size}
+            </span>
+          )}
         </span>
         <ChevronDown
-          size={14}
-          className={`text-neutral-400 transition-transform duration-250 ${open ? "rotate-180" : ""}`}
+          size={13}
+          className={`text-neutral-400 transition-transform duration-250 flex-shrink-0 ${open ? "rotate-180" : ""}`}
         />
       </button>
+
       <AnimatePresence initial={false}>
         {open && (
           <motion.div
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.28, ease: ease.out }}
+            transition={{ duration: 0.28, ease: E }}
             className="overflow-hidden"
           >
             <div
               className={
-                group.options.length > 6
-                  ? "max-h-44 space-y-0 overflow-y-auto pr-2 scrollbar-thin"
-                  : "space-y-0"
+                group.options.length > 7
+                  ? "max-h-44 overflow-y-auto pr-1 scrollbar-thin"
+                  : ""
               }
             >
-              {group.options.map((option) => (
+              {group.options.map((opt) => (
                 <FilterCheckbox
-                  key={option}
-                  id={`${group.id}-${option}`}
-                  label={option}
-                  checked={selected.has(option)}
-                  onChange={() => onToggle(group.id, option)}
+                  key={opt}
+                  id={`${group.id}-${opt}`}
+                  label={opt}
+                  checked={selected.has(opt)}
+                  onChange={() => onToggle(group.id, opt)}
                 />
               ))}
             </div>
           </motion.div>
         )}
       </AnimatePresence>
-    </motion.div>
+    </div>
   );
 }
+
+// ══════════════════════════════════════════════════════════════
+//  PRODUCT CARD
+// ══════════════════════════════════════════════════════════════
 
 function ProductCard({
   product,
@@ -446,19 +449,22 @@ function ProductCard({
   product: WatchProduct;
   index: number;
 }) {
+  const st = STATUS_CONFIG[product.status];
+
   return (
     <motion.article
       layout
-      initial={{ opacity: 0, y: 28 }}
+      initial={{ opacity: 0, y: 32 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.96 }}
       transition={{
-        duration: 0.45,
-        delay: Math.min(index * 0.04, 0.32),
-        ease: ease.out,
+        duration: 0.5,
+        delay: Math.min(index * 0.05, 0.35),
+        ease: E,
       }}
-      className="group flex flex-col border border-neutral-100 bg-white transition-shadow duration-300 hover:border-neutral-200 hover:shadow-[0_12px_40px_rgba(0,0,0,0.08)]"
+      className="group flex flex-col bg-white border border-neutral-200 hover:border-neutral-900 hover:shadow-[0_20px_60px_rgba(0,0,0,0.1)] transition-all duration-400"
     >
+      {/* Image */}
       <Link
         href={`/shop/product/${product.id}`}
         className="relative block aspect-square overflow-hidden bg-neutral-50"
@@ -467,35 +473,83 @@ function ProductCard({
           src={product.image}
           alt={product.name}
           fill
-          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-          className="object-contain p-6 transition-transform duration-500 group-hover:scale-105"
+          sizes="(max-width:640px) 50vw,(max-width:1024px) 33vw,25vw"
+          className="object-contain p-8 transition-transform duration-600 group-hover:scale-105"
         />
+
+        {/* Status badge */}
         {product.status === "out_of_stock" && (
-          <span className="absolute left-3 top-3 bg-neutral-900/80 px-2.5 py-1 text-[0.55rem] font-semibold uppercase tracking-[0.2em] text-white backdrop-blur-sm">
-            Sold Out
-          </span>
+          <div className="absolute top-0 left-0 bg-neutral-900 px-3 py-1.5">
+            <span
+              className="text-white font-black tracking-[0.18em] uppercase"
+              style={{ fontSize: "0.48rem" }}
+            >
+              Sold Out
+            </span>
+          </div>
         )}
+        {product.status === "variants" && (
+          <div className="absolute top-0 left-0 bg-neutral-700 px-3 py-1.5">
+            <span
+              className="text-white font-black tracking-[0.18em] uppercase"
+              style={{ fontSize: "0.48rem" }}
+            >
+              Multiple Options
+            </span>
+          </div>
+        )}
+
+        {/* Hover overlay */}
+        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/[0.04] transition-colors duration-400 flex items-center justify-center opacity-0 group-hover:opacity-100">
+          <div className="border border-neutral-900/20 bg-white/80 backdrop-blur-sm px-4 py-2 flex items-center gap-2 -translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+            <span
+              className="text-neutral-900 font-black tracking-[0.18em] uppercase"
+              style={{ fontSize: "0.5rem" }}
+            >
+              View Details
+            </span>
+            <ArrowRight size={10} className="text-neutral-900" />
+          </div>
+        </div>
       </Link>
 
-      <motion.div className="flex flex-1 flex-col p-4 md:p-5">
+      {/* Info */}
+      <div className="flex flex-1 flex-col p-4 md:p-5">
+        {/* Collection tag */}
+        <span
+          className="text-neutral-400 font-black tracking-[0.2em] uppercase mb-2"
+          style={{ fontSize: "0.46rem" }}
+        >
+          {product.collection}
+        </span>
+
+        {/* Name */}
         <Link href={`/shop/product/${product.id}`}>
-          <h3 className="mb-3 line-clamp-2 min-h-[2.75rem] text-[0.78rem] font-semibold uppercase leading-snug tracking-wide text-neutral-900 transition-colors group-hover:text-[var(--accent)] md:text-[0.82rem]">
+          <h3
+            className="text-[0.78rem] md:text-[0.82rem] font-semibold text-neutral-800 line-clamp-2 leading-snug mb-3 group-hover:text-neutral-900 transition-colors min-h-[2.5rem]"
+            style={{ letterSpacing: "0.01em" }}
+          >
             {product.name}
           </h3>
         </Link>
 
+        {/* Price */}
         <p
-          className="mb-4 text-[1.05rem] font-light tracking-tight md:text-[1.1rem]"
-          style={{ color: ACCENT }}
+          className="text-neutral-900 font-black mb-4"
+          style={{
+            fontSize: "clamp(1rem,2vw,1.1rem)",
+            letterSpacing: "-0.01em",
+          }}
         >
           {formatPrice(product.price)}
         </p>
 
+        {/* CTA */}
         {product.status === "in_stock" && (
           <button
             type="button"
-            className="mt-auto w-full py-3 text-[0.62rem] font-bold uppercase tracking-[0.22em] text-white transition-all duration-200 hover:brightness-110 hover:shadow-md active:scale-[0.98]"
-            style={{ backgroundColor: ACCENT }}
+            className="mt-auto w-full bg-neutral-900 hover:bg-neutral-700 text-white py-3 font-black tracking-[0.2em] uppercase transition-all duration-200 hover:shadow-lg active:scale-[0.98]"
+            style={{ fontSize: "0.58rem" }}
           >
             Add to Cart
           </button>
@@ -504,23 +558,29 @@ function ProductCard({
           <button
             type="button"
             disabled
-            className="mt-auto w-full cursor-not-allowed bg-neutral-100 py-3 text-[0.62rem] font-bold uppercase tracking-[0.22em] text-neutral-400"
+            className="mt-auto w-full bg-neutral-100 text-neutral-400 py-3 font-black tracking-[0.2em] uppercase cursor-not-allowed"
+            style={{ fontSize: "0.58rem" }}
           >
-            Out of Stock
+            Unavailable
           </button>
         )}
         {product.status === "variants" && (
           <Link
             href={`/shop/product/${product.id}`}
-            className="mt-auto block w-full border border-neutral-200 bg-neutral-50 py-3 text-center text-[0.62rem] font-bold uppercase tracking-[0.22em] text-neutral-700 transition-all duration-200 hover:border-neutral-400 hover:bg-white"
+            className="mt-auto block w-full border-2 border-neutral-900 text-neutral-900 hover:bg-neutral-900 hover:text-white py-3 text-center font-black tracking-[0.2em] uppercase transition-all duration-200"
+            style={{ fontSize: "0.58rem" }}
           >
             View Variants
           </Link>
         )}
-      </motion.div>
+      </div>
     </motion.article>
   );
 }
+
+// ══════════════════════════════════════════════════════════════
+//  FILTERS PANEL
+// ══════════════════════════════════════════════════════════════
 
 function FiltersPanel({
   filters,
@@ -535,7 +595,7 @@ function FiltersPanel({
   filters: ActiveFilters;
   priceFrom: string;
   priceTo: string;
-  onToggle: (groupId: string, option: string) => void;
+  onToggle: (g: string, o: string) => void;
   onPriceFrom: (v: string) => void;
   onPriceTo: (v: string) => void;
   onClear: () => void;
@@ -548,67 +608,69 @@ function FiltersPanel({
 
   return (
     <aside className={className}>
-      <motion.div
-        initial={{ opacity: 0, x: -12 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.5, ease: ease.out }}
-        className="sticky top-24 border border-neutral-100 bg-white px-5 py-6 shadow-sm md:px-6"
-      >
-        <div className="mb-6 flex items-center justify-between border-b border-neutral-100 pb-4">
-          <p className="text-[0.68rem] font-bold uppercase tracking-[0.28em] text-neutral-900">
-            Filter By
-          </p>
+      <div className="sticky top-24">
+        {/* Panel header */}
+        <div className="flex items-center justify-between mb-5 pb-4 border-b-2 border-neutral-900">
+          <span className="text-[0.6rem] font-black tracking-[0.3em] uppercase text-neutral-900">
+            Refine
+          </span>
           {activeCount > 0 && (
             <button
               type="button"
               onClick={onClear}
-              className="text-[0.62rem] font-semibold uppercase tracking-[0.14em] text-neutral-500 transition-colors hover:text-[var(--accent)]"
+              className="flex items-center gap-1.5 text-neutral-400 hover:text-neutral-900 transition-colors"
+              style={{ fontSize: "0.58rem" }}
             >
-              Clear ({activeCount})
+              <X size={10} />
+              Clear {activeCount}
             </button>
           )}
         </div>
 
-        <div className="border-b border-neutral-100 pb-5">
-          <p className="mb-3 text-[0.7rem] font-semibold uppercase tracking-[0.18em] text-neutral-800">
+        {/* Price range */}
+        <div className="mb-1 pb-4 border-b border-neutral-100">
+          <p className="text-[0.6rem] font-black tracking-[0.24em] uppercase text-neutral-800 mb-3">
             Price
           </p>
           <div className="flex items-center gap-2">
             <input
               type="text"
               inputMode="numeric"
-              placeholder="From"
+              placeholder="Min"
               value={priceFrom}
               onChange={(e) => onPriceFrom(e.target.value)}
-              className="w-full border border-neutral-200 bg-neutral-50 px-3 py-2.5 text-[0.82rem] text-neutral-800 outline-none transition-colors placeholder:text-neutral-400 focus:border-neutral-400 focus:bg-white"
+              className="w-full border border-neutral-200 bg-neutral-50 px-3 py-2.5 text-[0.78rem] text-neutral-800 outline-none transition-all placeholder:text-neutral-300 focus:border-neutral-900 focus:bg-white"
             />
-            <span className="text-neutral-300">—</span>
+            <div className="w-3 h-px bg-neutral-300 flex-shrink-0" />
             <input
               type="text"
               inputMode="numeric"
-              placeholder="To"
+              placeholder="Max"
               value={priceTo}
               onChange={(e) => onPriceTo(e.target.value)}
-              className="w-full border border-neutral-200 bg-neutral-50 px-3 py-2.5 text-[0.82rem] text-neutral-800 outline-none transition-colors placeholder:text-neutral-400 focus:border-neutral-400 focus:bg-white"
+              className="w-full border border-neutral-200 bg-neutral-50 px-3 py-2.5 text-[0.78rem] text-neutral-800 outline-none transition-all placeholder:text-neutral-300 focus:border-neutral-900 focus:bg-white"
             />
           </div>
         </div>
 
+        {/* Filter groups */}
         {FILTER_GROUPS.map((group, i) => (
           <FilterSection
             key={group.id}
             group={group}
             filters={filters}
             onToggle={onToggle}
-            defaultOpen={i < 3}
+            defaultOpen={i < 2}
           />
         ))}
-      </motion.div>
+      </div>
     </aside>
   );
 }
 
-// ── Main ──────────────────────────────────────────────────────────────────────
+// ══════════════════════════════════════════════════════════════
+//  MAIN PAGE
+// ══════════════════════════════════════════════════════════════
 
 export default function BrandWatches({
   brandName = "Maurice Lacroix",
@@ -620,7 +682,7 @@ export default function BrandWatches({
   const [priceFrom, setPriceFrom] = useState("");
   const [priceTo, setPriceTo] = useState("");
   const [sort, setSort] = useState<SortValue>("newest");
-  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   const priceMin = parsePriceInput(priceFrom);
   const priceMax = parsePriceInput(priceTo);
@@ -629,8 +691,7 @@ export default function BrandWatches({
     setFilters((prev) => {
       const next = { ...prev };
       const set = new Set(prev[groupId]);
-      if (set.has(option)) set.delete(option);
-      else set.add(option);
+      set.has(option) ? set.delete(option) : set.add(option);
       next[groupId] = set;
       return next;
     });
@@ -644,11 +705,15 @@ export default function BrandWatches({
     setPriceTo("");
   };
 
+  const activeCount =
+    Object.values(filters).reduce((n, s) => n + s.size, 0) +
+    (priceFrom ? 1 : 0) +
+    (priceTo ? 1 : 0);
+
   const filteredProducts = useMemo(() => {
     let list = products.filter((p) =>
       productMatchesFilters(p, filters, priceMin, priceMax),
     );
-
     switch (sort) {
       case "price_asc":
         list = [...list].sort((a, b) => a.price - b.price);
@@ -668,30 +733,88 @@ export default function BrandWatches({
   return (
     <div
       className="min-h-screen bg-[#fafafa] text-neutral-900"
-      style={{ "--accent": ACCENT } as React.CSSProperties}
+      style={{ fontFamily: "var(--font-body,'Barlow Condensed',sans-serif)" }}
     >
-      {/* Page header */}
+      {/* ══ PAGE HEADER ══ */}
       <motion.header
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: ease.out }}
-        className="border-b border-neutral-100 bg-white"
+        transition={{ duration: 0.7, ease: E }}
+        className="bg-white border-b border-neutral-200"
       >
-        <div className="mx-auto max-w-7xl px-6 py-10 md:px-14 md:py-14">
-          <p className="mb-2 text-[0.55rem] font-semibold uppercase tracking-[0.32em] text-neutral-400">
-            Shop · Luxury Timepieces
-          </p>
-          <h1 className="text-[clamp(2rem,5vw,3.25rem)] font-light leading-tight tracking-tight text-neutral-900">
-            {brandName}
-          </h1>
+        <div className="max-w-7xl mx-auto px-6 md:px-14 py-10 md:py-14">
+          {/* Breadcrumb */}
+          <div className="flex items-center gap-2 mb-5">
+            <Link
+              href="/"
+              className="text-neutral-400 hover:text-neutral-900 transition-colors font-medium"
+              style={{ fontSize: "0.6rem", letterSpacing: "0.12em" }}
+            >
+              HOME
+            </Link>
+            <span className="text-neutral-300" style={{ fontSize: "0.6rem" }}>
+              ›
+            </span>
+            <Link
+              href="/shop"
+              className="text-neutral-400 hover:text-neutral-900 transition-colors font-medium"
+              style={{ fontSize: "0.6rem", letterSpacing: "0.12em" }}
+            >
+              SHOP
+            </Link>
+            <span className="text-neutral-300" style={{ fontSize: "0.6rem" }}>
+              ›
+            </span>
+            <span
+              className="text-neutral-900 font-bold"
+              style={{ fontSize: "0.6rem", letterSpacing: "0.12em" }}
+            >
+              {brandName.toUpperCase()}
+            </span>
+          </div>
+
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+            <div>
+              <p
+                className="text-neutral-400 font-bold tracking-[0.3em] uppercase mb-2"
+                style={{ fontSize: "0.5rem" }}
+              >
+                Authorized Retailer · Est. 1983
+              </p>
+              <h1
+                className="font-light leading-[0.9] text-neutral-900"
+                style={{
+                  fontFamily:
+                    "var(--font-display,'Cormorant Garamond',Georgia,serif)",
+                  fontSize: "clamp(2.2rem, 5vw, 4rem)",
+                }}
+              >
+                {brandName}
+              </h1>
+            </div>
+
+            <div className="flex items-center gap-3">
+              <div className="w-1.5 h-1.5 rounded-full bg-green-500" />
+              <span
+                className="text-neutral-500 font-medium"
+                style={{ fontSize: "0.68rem" }}
+              >
+                {products.length} timepieces available
+              </span>
+            </div>
+          </div>
         </div>
+
+        {/* Black bottom rule */}
+        <div className="h-[2px] bg-neutral-900 max-w-7xl mx-auto" />
       </motion.header>
 
-      <div className="mx-auto max-w-7xl px-6 py-8 md:px-14 md:py-12">
+      {/* ══ BODY ══ */}
+      <div className="max-w-7xl mx-auto px-6 md:px-14 py-10 md:py-12">
         <div className="flex flex-col gap-8 lg:flex-row lg:gap-12">
-          {/* Desktop filters */}
+          {/* Desktop sidebar */}
           <FiltersPanel
-            className="hidden w-full max-w-[260px] flex-shrink-0 lg:block xl:max-w-[280px]"
+            className="hidden lg:block w-full max-w-[240px] xl:max-w-[260px] flex-shrink-0"
             filters={filters}
             priceFrom={priceFrom}
             priceTo={priceTo}
@@ -701,95 +824,153 @@ export default function BrandWatches({
             onClear={clearFilters}
           />
 
-          {/* Main column */}
+          {/* Main */}
           <div className="min-w-0 flex-1">
             {/* Toolbar */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.15, duration: 0.5 }}
-              className="mb-6 flex flex-wrap items-center justify-between gap-4 border-b border-neutral-100 pb-5"
+              transition={{ delay: 0.15 }}
+              className="flex flex-wrap items-center justify-between gap-3 mb-6 pb-5 border-b border-neutral-200"
             >
-              <p className="text-[0.85rem] text-neutral-600">
-                Showing{" "}
-                <span className="font-semibold text-neutral-900">
-                  {filteredProducts.length}
-                </span>{" "}
-                {filteredProducts.length === 1 ? "result" : "results"}
-              </p>
-
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-4">
+                {/* Mobile filter button */}
                 <button
                   type="button"
-                  onClick={() => setMobileFiltersOpen(true)}
-                  className="flex items-center gap-2 border border-neutral-200 bg-white px-4 py-2.5 text-[0.65rem] font-bold uppercase tracking-[0.18em] text-neutral-700 transition-colors hover:border-neutral-400 lg:hidden"
+                  onClick={() => setMobileOpen(true)}
+                  className="lg:hidden flex items-center gap-2 border border-neutral-900 bg-white px-4 py-2.5 font-black tracking-[0.16em] uppercase transition-colors hover:bg-neutral-900 hover:text-white"
+                  style={{ fontSize: "0.6rem" }}
                 >
-                  <SlidersHorizontal size={14} />
-                  Filters
+                  <SlidersHorizontal size={13} />
+                  Filter
+                  {activeCount > 0 && (
+                    <span className="inline-flex items-center justify-center w-4 h-4 bg-neutral-900 text-white text-[0.45rem] font-black rounded-sm group-hover:bg-white group-hover:text-neutral-900">
+                      {activeCount}
+                    </span>
+                  )}
                 </button>
 
-                <div className="relative flex items-center gap-2">
-                  <ArrowUpDown
-                    size={14}
-                    className="pointer-events-none absolute left-3 text-neutral-400"
-                  />
-                  <label htmlFor="sort-select" className="sr-only">
-                    Sort by
-                  </label>
-                  <select
-                    id="sort-select"
-                    value={sort}
-                    onChange={(e) => setSort(e.target.value as SortValue)}
-                    className="appearance-none border border-neutral-200 bg-white py-2.5 pl-9 pr-10 text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-neutral-800 outline-none transition-colors hover:border-neutral-400 focus:border-neutral-500"
-                  >
-                    {SORT_OPTIONS.map((opt) => (
-                      <option key={opt.value} value={opt.value}>
-                        {opt.label}
-                      </option>
-                    ))}
-                  </select>
-                  <ChevronDown
-                    size={14}
-                    className="pointer-events-none absolute right-3 text-neutral-400"
-                  />
-                </div>
+                <p
+                  className="text-neutral-500 font-medium"
+                  style={{ fontSize: "0.75rem" }}
+                >
+                  <span className="font-black text-neutral-900">
+                    {filteredProducts.length}
+                  </span>{" "}
+                  {filteredProducts.length === 1 ? "result" : "results"}
+                </p>
+              </div>
+
+              {/* Sort */}
+              <div className="relative flex items-center">
+                <ArrowUpDown
+                  size={12}
+                  className="absolute left-3 text-neutral-400 pointer-events-none"
+                />
+                <select
+                  value={sort}
+                  onChange={(e) => setSort(e.target.value as SortValue)}
+                  className="appearance-none border border-neutral-200 bg-white py-2.5 pl-8 pr-8 font-semibold text-neutral-800 outline-none hover:border-neutral-900 focus:border-neutral-900 transition-colors cursor-pointer"
+                  style={{ fontSize: "0.68rem", letterSpacing: "0.06em" }}
+                >
+                  {SORT_OPTIONS.map((o) => (
+                    <option key={o.value} value={o.value}>
+                      {o.label}
+                    </option>
+                  ))}
+                </select>
+                <ChevronDown
+                  size={12}
+                  className="absolute right-3 text-neutral-400 pointer-events-none"
+                />
               </div>
             </motion.div>
 
-            {/* Grid */}
+            {/* Active filter chips */}
+            {activeCount > 0 && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                className="flex flex-wrap gap-2 mb-5"
+              >
+                {Object.entries(filters).flatMap(([gId, sel]) =>
+                  [...sel].map((opt) => (
+                    <button
+                      key={`${gId}-${opt}`}
+                      onClick={() => toggleFilter(gId, opt)}
+                      className="flex items-center gap-1.5 border border-neutral-900 bg-neutral-900 text-white px-3 py-1.5 hover:bg-neutral-700 transition-colors"
+                      style={{ fontSize: "0.55rem", letterSpacing: "0.1em" }}
+                    >
+                      {opt}
+                      <X size={9} />
+                    </button>
+                  )),
+                )}
+                {(priceFrom || priceTo) && (
+                  <button
+                    onClick={() => {
+                      setPriceFrom("");
+                      setPriceTo("");
+                    }}
+                    className="flex items-center gap-1.5 border border-neutral-900 bg-neutral-900 text-white px-3 py-1.5 hover:bg-neutral-700 transition-colors"
+                    style={{ fontSize: "0.55rem", letterSpacing: "0.1em" }}
+                  >
+                    Rs. {priceFrom || "—"} – {priceTo || "—"}
+                    <X size={9} />
+                  </button>
+                )}
+              </motion.div>
+            )}
+
+            {/* Product grid */}
             <AnimatePresence mode="popLayout">
               {filteredProducts.length > 0 ? (
                 <motion.div
                   layout
-                  className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 xl:grid-cols-4"
+                  className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4"
                 >
-                  {filteredProducts.map((product, i) => (
-                    <ProductCard key={product.id} product={product} index={i} />
+                  {filteredProducts.map((p, i) => (
+                    <ProductCard key={p.id} product={p} index={i} />
                   ))}
                 </motion.div>
               ) : (
                 <motion.div
-                  initial={{ opacity: 0, y: 12 }}
+                  initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="flex flex-col items-center justify-center border border-dashed border-neutral-200 bg-white py-24 text-center"
+                  className="flex flex-col items-center justify-center border border-dashed border-neutral-300 bg-white py-24 text-center"
                 >
-                  <ShoppingBag
-                    size={32}
-                    strokeWidth={1.2}
-                    className="mb-4 text-neutral-300"
-                  />
-                  <p className="mb-2 text-lg font-light text-neutral-800">
-                    No watches match your filters
-                  </p>
-                  <p className="mb-6 max-w-sm text-[0.9rem] text-neutral-500">
-                    Try adjusting your price range or clearing some filter
-                    options.
+                  <div className="w-14 h-14 border border-neutral-200 flex items-center justify-center mb-6">
+                    <ShoppingBag
+                      size={22}
+                      strokeWidth={1.4}
+                      className="text-neutral-300"
+                    />
+                  </div>
+                  <h3
+                    className="font-light mb-2"
+                    style={{
+                      fontFamily:
+                        "var(--font-display,'Cormorant Garamond',Georgia,serif)",
+                      fontSize: "1.6rem",
+                    }}
+                  >
+                    No results found
+                  </h3>
+                  <p
+                    className="text-neutral-400 font-light italic mb-8 max-w-xs leading-relaxed"
+                    style={{
+                      fontSize: "0.9rem",
+                      fontFamily:
+                        "var(--font-display,'Cormorant Garamond',Georgia,serif)",
+                    }}
+                  >
+                    Try adjusting your filters or browsing the full collection.
                   </p>
                   <button
                     type="button"
                     onClick={clearFilters}
-                    className="px-6 py-3 text-[0.62rem] font-bold uppercase tracking-[0.2em] text-white"
-                    style={{ backgroundColor: ACCENT }}
+                    className="bg-neutral-900 text-white px-8 py-3.5 font-black tracking-[0.2em] uppercase hover:bg-neutral-700 transition-colors"
+                    style={{ fontSize: "0.6rem" }}
                   >
                     Clear All Filters
                   </button>
@@ -800,38 +981,40 @@ export default function BrandWatches({
         </div>
       </div>
 
-      {/* Mobile filter drawer */}
+      {/* ══ MOBILE FILTER DRAWER ══ */}
       <AnimatePresence>
-        {mobileFiltersOpen && (
+        {mobileOpen && (
           <>
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 z-[60] bg-black/40 backdrop-blur-[2px] lg:hidden"
-              onClick={() => setMobileFiltersOpen(false)}
+              className="fixed inset-0 z-[60] bg-black/40 backdrop-blur-sm lg:hidden"
+              onClick={() => setMobileOpen(false)}
             />
             <motion.div
               initial={{ x: "-100%" }}
               animate={{ x: 0 }}
               exit={{ x: "-100%" }}
-              transition={{ duration: 0.35, ease: ease.out }}
-              className="fixed inset-y-0 left-0 z-[70] w-[min(100%,320px)] overflow-y-auto bg-white shadow-2xl lg:hidden"
+              transition={{ duration: 0.35, ease: E }}
+              className="fixed inset-y-0 left-0 z-[70] w-[min(100%,320px)] bg-white shadow-2xl lg:hidden flex flex-col"
             >
-              <div className="sticky top-0 z-10 flex items-center justify-between border-b border-neutral-100 bg-white px-5 py-4">
-                <p className="text-[0.68rem] font-bold uppercase tracking-[0.24em]">
-                  Filters
-                </p>
+              {/* Drawer header */}
+              <div className="flex items-center justify-between border-b-2 border-neutral-900 px-6 py-4 flex-shrink-0">
+                <span className="text-[0.6rem] font-black tracking-[0.3em] uppercase">
+                  Refine
+                </span>
                 <button
                   type="button"
-                  onClick={() => setMobileFiltersOpen(false)}
-                  aria-label="Close filters"
-                  className="flex h-9 w-9 items-center justify-center border border-neutral-200 text-neutral-600 hover:border-neutral-400"
+                  onClick={() => setMobileOpen(false)}
+                  className="w-9 h-9 border border-neutral-200 flex items-center justify-center hover:border-neutral-900 transition-colors"
                 >
-                  <X size={16} />
+                  <X size={15} className="text-neutral-600" />
                 </button>
               </div>
-              <div className="px-2 pb-8">
+
+              {/* Scrollable filters */}
+              <div className="flex-1 overflow-y-auto px-5 py-4">
                 <FiltersPanel
                   filters={filters}
                   priceFrom={priceFrom}
@@ -842,16 +1025,18 @@ export default function BrandWatches({
                   onClear={clearFilters}
                 />
               </div>
-              <motion.div className="sticky bottom-0 border-t border-neutral-100 bg-white p-4">
+
+              {/* Show results */}
+              <div className="flex-shrink-0 border-t border-neutral-200 p-4">
                 <button
                   type="button"
-                  onClick={() => setMobileFiltersOpen(false)}
-                  className="w-full py-3.5 text-[0.62rem] font-bold uppercase tracking-[0.22em] text-white"
-                  style={{ backgroundColor: ACCENT }}
+                  onClick={() => setMobileOpen(false)}
+                  className="w-full bg-neutral-900 hover:bg-neutral-700 text-white py-4 font-black tracking-[0.22em] uppercase transition-colors"
+                  style={{ fontSize: "0.62rem" }}
                 >
                   Show {filteredProducts.length} Results
                 </button>
-              </motion.div>
+              </div>
             </motion.div>
           </>
         )}
