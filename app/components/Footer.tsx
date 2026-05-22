@@ -16,7 +16,7 @@ import logo from "@/app/assets/sulux.png";
 
 const FOOTER_COLS = [
   {
-    title: "EXPLORE",
+    title: "Explore",
     links: [
       { label: "All Watches", href: "/shop" },
       { label: "New Arrivals", href: "/shop/new" },
@@ -26,7 +26,7 @@ const FOOTER_COLS = [
     ],
   },
   {
-    title: "SERVICES",
+    title: "Services",
     links: [
       { label: "Watch Servicing", href: "/services/servicing" },
       { label: "Trade-In Program", href: "/services/trade-in" },
@@ -36,7 +36,7 @@ const FOOTER_COLS = [
     ],
   },
   {
-    title: "COMPANY",
+    title: "Company",
     links: [
       { label: "About Us", href: "/about" },
       { label: "Our Story", href: "/about/story" },
@@ -52,7 +52,7 @@ const CONTACT = [
     Icon: MapPinIcon,
     label: "Visit Us",
     text: "New Road, Kathmandu, Nepal",
-    href: "https://maps.google.com/?q=New+Road+Kathmandu",
+    href: "https://maps.google.com",
   },
   {
     Icon: PhoneIcon,
@@ -61,22 +61,25 @@ const CONTACT = [
     href: "tel:+97701XXXXXXX",
   },
   {
-    Icon: EnvelopeIcon,
+    Icon: EmailUs,
     label: "Email Us",
     text: "info@suluxcentre.com",
     href: "mailto:info@suluxcentre.com",
   },
 ];
 
+function EmailUs(props: React.ComponentProps<typeof EnvelopeIcon>) {
+  return <EnvelopeIcon {...props} />;
+}
+
 const SOCIALS = [
   {
     label: "Instagram",
-    short: "IG",
     href: "https://www.instagram.com/sulux.centre.nepal/",
     Icon: () => (
       <svg
-        width="14"
-        height="14"
+        width="18"
+        height="18"
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"
@@ -92,12 +95,11 @@ const SOCIALS = [
   },
   {
     label: "Facebook",
-    short: "FB",
     href: "https://www.facebook.com/sulux.centre.nepal",
     Icon: () => (
       <svg
-        width="14"
-        height="14"
+        width="18"
+        height="18"
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"
@@ -111,10 +113,9 @@ const SOCIALS = [
   },
   {
     label: "TikTok",
-    short: "TK",
     href: "https://www.tiktok.com/@sulux.centre.nepal",
     Icon: () => (
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
         <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.76a4.85 4.85 0 0 1-1.01-.07z" />
       </svg>
     ),
@@ -133,7 +134,6 @@ const BRANDS = [
   "TISSOT",
   "LONGINES",
 ];
-
 const STORE_HOURS = [
   { days: "Sunday – Friday", hours: "11:00 AM – 8:00 PM" },
   { days: "Saturday", hours: "11:00 AM – 5:00 PM" },
@@ -149,10 +149,7 @@ export default function Footer() {
   const [hovCol, setHovCol] = useState<number | null>(null);
   const [mounted, setMounted] = useState(false);
 
-  const rootRef = useRef<HTMLElement>(null);
-  const ctaRef = useRef<HTMLDivElement>(null);
   const bodyRef = useRef<HTMLDivElement>(null);
-  const ctaInV = useInView(ctaRef, { once: true, margin: "-60px" });
   const bodyInV = useInView(bodyRef, { once: true, margin: "-60px" });
 
   useEffect(() => {
@@ -168,392 +165,303 @@ export default function Footer() {
   };
 
   return (
-    <footer
-      ref={rootRef}
-      className="relative bg-white text-neutral-900 overflow-hidden"
-    >
+    <footer className="relative bg-white text-neutral-900 border-t border-neutral-200">
       <style>{`
-        /* ── Link underline ── */
-        .fl { position:relative; display:inline-flex; align-items:center; }
-        .fl::after {
-          content:'';
-          position:absolute; bottom:-1px; left:0;
-          width:0; height:1px; background:#111;
-          transition: width 0.32s cubic-bezier(0.16,1,0.3,1);
+        @keyframes marquee {
+          0 { transform: translateX(0%); }
+          100% { transform: translateX(-50%); }
         }
-        .fl:hover::after { width:100%; }
-
-        /* ── Social button ── */
-        .soc { transition:all 0.22s ease; }
-        .soc:hover { background:#111 !important; color:#fff !important; transform:translateY(-2px); border-color:#111 !important; }
-
-        /* ── Newsletter input ── */
-        .nli { transition:border-color 0.22s ease; }
-        .nli:focus { border-color:#111 !important; outline:none; }
-        .nli::placeholder { color:rgba(0,0,0,0.25); }
-
-        /* ── Column border ── */
-        .colbdr { transition:border-color 0.3s ease; }
-
-        /* ── Contact row ── */
-        .ctr-icon { transition:all 0.22s ease; }
-        .ctr:hover .ctr-icon { background:#111 !important; color:#fff !important; border-color:#111 !important; transform:scale(1.05); }
-
-        /* ── Marquee ── */
-        @keyframes mq { from{transform:translateX(0)} to{transform:translateX(-50%)} }
-        .mqtrack { animation:mq 30s linear infinite; will-change:transform; }
-
-        /* ── CTA primary ── */
-        .btnprim { transition:all 0.22s ease; }
-        .btnprim:hover { background:#333 !important; transform:translateY(-2px); box-shadow:0 12px 32px rgba(0,0,0,0.15); }
-
-        /* ── CTA ghost ── */
-        .btnghost { transition:all 0.22s ease; }
-        .btnghost:hover { border-color:#111 !important; color:#111 !important; transform:translateY(-2px); }
-
-        /* ── Newsletter submit ── */
-        .nlbtn { transition:all 0.22s ease; }
-        .nlbtn:hover { background:#333 !important; transform:translateY(-1px); }
-
-        /* ── Open dot ── */
-        @keyframes openBlink { 0%,100%{opacity:1} 50%{opacity:0.4} }
-        .open-dot { animation:openBlink 2.4s ease-in-out infinite; }
-
-        /* ── Bottom line ── */
-        @keyframes lineIn { from{transform:scaleX(0)} to{transform:scaleX(1)} }
-        .line-in { transform-origin:left; animation:lineIn 1.4s cubic-bezier(0.16,1,0.3,1) 0.2s both; }
-
-        /* ── Dot grid ── */
-        .dot-grid {
-          background-image:radial-gradient(circle,rgba(0,0,0,0.045) 1px,transparent 1px);
-          background-size:26px 26px;
+        .animate-marquee-slow {
+          display: flex;
+          width: max-content;
+          animation: marquee 40s linear infinite;
         }
       `}</style>
 
-      {/* ══════════════════════════════════════════════════════
-          2 ─ BRAND MARQUEE
-      ══════════════════════════════════════════════════════ */}
-      <div className="relative border-b border-neutral-200 overflow-hidden bg-neutral-50">
-        {/* Top rule */}
+      {/* ── Brand Ticker Marquee ── */}
+      <div className="relative border-b border-neutral-200 overflow-hidden bg-neutral-50/50 flex items-stretch">
         {mounted && (
-          <div className="line-in h-[2px] bg-neutral-900 absolute top-0 left-0 right-0" />
+          <div className="h-[2px] bg-neutral-900 absolute top-0 left-0 right-0 scale-x-100 origin-left transition-transform duration-1000" />
         )}
-
-        <div className="flex items-stretch">
-          {/* Label */}
-          <div
-            className="flex-shrink-0 bg-neutral-900 px-6 py-4 flex items-center border-r border-neutral-700"
-            style={{ fontSize: "0.46rem", letterSpacing: "0.3em" }}
-          >
-            <p className="text-white font-black tracking-widest uppercase whitespace-nowrap">
-              Authorized Retailer
-            </p>
-          </div>
-
-          {/* Track */}
-          <div className="overflow-hidden flex-1 flex items-center">
-            <div
-              className="mqtrack flex items-center"
-              style={{ width: "max-content" }}
-            >
-              {[...Array(3)].map((_, ri) => (
-                <span key={ri} className="flex items-center">
-                  {BRANDS.map((b, bi) => (
-                    <span key={`${ri}-${bi}`} className="flex items-center">
-                      <span
-                        className="text-neutral-400 font-black tracking-[0.22em] px-6 py-4 hover:text-neutral-900 transition-colors duration-200 cursor-default"
-                        style={{ fontSize: "0.55rem" }}
-                      >
-                        {b}
-                      </span>
-                      <span className="text-neutral-200 text-xs">◆</span>
+        <div className="bg-neutral-950 text-white text-[10px] tracking-[0.25em] font-bold uppercase px-6 py-4 flex items-center shrink-0 border-r border-neutral-800 z-10">
+          Authorized Retailer
+        </div>
+        <div className="overflow-hidden flex items-center flex-1">
+          <div className="animate-marquee-slow whitespace-nowrap">
+            {[...Array(3)].map((_, ri) => (
+              <div key={ri} className="flex items-center">
+                {BRANDS.map((brand, bi) => (
+                  <div key={`${ri}-${bi}`} className="flex items-center mx-6">
+                    <span className="text-xs font-black tracking-[0.2em] text-neutral-800 cursor-default uppercase">
+                      {brand}
                     </span>
-                  ))}
-                </span>
-              ))}
-            </div>
+                    <span className="text-neutral-300 text-[10px] ml-12">
+                      ◆
+                    </span>
+                  </div>
+                ))}
+              </div>
+            ))}
           </div>
         </div>
       </div>
 
-      {/* ══════════════════════════════════════════════════════
-          3 ─ MAIN GRID
-      ══════════════════════════════════════════════════════ */}
+      {/* ── Main Layout Content Container ── */}
       <div
         ref={bodyRef}
-        className="relative bg-white px-8 md:px-14 xl:px-20 pt-16 pb-12"
+        className="relative max-w-7xl mx-auto px-6 md:px-12 py-16 lg:py-20"
       >
-        {/* Subtle dot grid */}
-        <div className="dot-grid absolute inset-0 pointer-events-none opacity-70" />
-
-        {/* SULUX watermark */}
+        {/* Subtle Watermark Branding Backdrop */}
         <div
-          className="absolute bottom-0 left-0 right-0 flex items-end justify-center pointer-events-none select-none overflow-hidden"
+          className="absolute inset-x-0 bottom-0 flex items-end justify-center pointer-events-none select-none overflow-hidden h-1/2"
           aria-hidden
         >
-          <span
-            className="font-black text-neutral-900 leading-none"
-            style={{
-              fontSize: "clamp(6rem, 22vw, 20rem)",
-              letterSpacing: "-0.04em",
-              opacity: 0.022,
-              transform: "translateY(15%)",
-            }}
-          >
+          <span className="font-black text-red-700/5 leading-none select-none text-[15vw] tracking-tighter translate-y-[20%]">
             SULUX
           </span>
         </div>
 
-        <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-12 xl:gap-16">
-          {/* ── A: Brand column (4/12) ── */}
+        <div className="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+          {/* Column A: Core Brand Identity Details */}
           <motion.div
-            className="lg:col-span-4"
-            initial={{ opacity: 0, y: 36 }}
+            className="lg:col-span-4 space-y-8"
+            initial={{ opacity: 0, y: 20 }}
             animate={bodyInV ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.9, ease: E }}
+            transition={{ duration: 0.6, ease: E }}
           >
-            {/* Logo */}
-            <Link href="/" className="inline-block mb-8 group">
+            <Link
+              href="/"
+              className="inline-block transition-opacity hover:opacity-75"
+            >
               <Image
                 src={logo}
                 alt="Sulux Centre"
-                className="h-14 md:h-35 w-auto object-contain transition-all duration-300 group-hover:opacity-55"
+                className="h-26 w-80 object-contain"
+                priority
               />
             </Link>
 
-            {/* Tagline */}
-            <p
-              className="italic text-neutral-400 font-light leading-relaxed mb-8 max-w-xs"
-              style={{
-                fontSize: "1.05rem",
-                fontFamily: "var(--font-cormorant,'Georgia',serif)",
-              }}
-            >
+            <p className="text-neutral-500 text-lg italic leading-relaxed font-serif max-w-sm">
               "Curating the world's finest timepieces for over four decades —
               where every watch tells a story."
             </p>
 
-            {/* Contact rows */}
-            <div className="space-y-3.5 mb-9">
+            <div className="space-y-4">
               {CONTACT.map(({ Icon, label, text, href }) => (
                 <a
                   key={text}
                   href={href}
-                  className="ctr flex items-center gap-3 group"
+                  className="flex items-start gap-4 group"
                   target={href.startsWith("http") ? "_blank" : undefined}
                   rel="noreferrer"
                 >
-                  <div className="ctr-icon w-8 h-8 border border-neutral-200 flex items-center justify-center flex-shrink-0 bg-white text-neutral-500">
-                    <Icon className="h-3.5 w-3.5" strokeWidth={1.7} />
+                  <div className="w-10 h-10 border border-neutral-200 rounded-sm flex items-center justify-center shrink-0 bg-white text-neutral-500 group-hover:bg-neutral-950 group-hover:text-white group-hover:border-neutral-950 transition-all duration-300 transform group-hover:scale-105">
+                    <Icon className="h-4 w-4" strokeWidth={1.5} />
                   </div>
                   <div>
-                    <p
-                      className="text-neutral-400 font-bold tracking-[0.18em] uppercase leading-none mb-0.5"
-                      style={{ fontSize: "0.44rem" }}
-                    >
+                    <span className="block text-[11px] font-bold tracking-widest text-red-700 uppercase">
                       {label}
-                    </p>
-                    <p
-                      className="text-neutral-600 font-light group-hover:text-neutral-900 transition-colors duration-200 leading-snug"
-                      style={{ fontSize: "0.78rem" }}
-                    >
+                    </span>
+                    <span className="text-neutral-700 font-medium text-sm group-hover:text-neutral-950 transition-colors duration-200">
                       {text}
-                    </p>
+                    </span>
                   </div>
                 </a>
               ))}
             </div>
 
-            {/* Social buttons */}
-            <div className="flex items-center gap-2.5">
-              {SOCIALS.map(({ label, short, Icon, href }) => (
+            <div className="flex items-center gap-3 pt-2">
+              {SOCIALS.map(({ label, href, Icon }) => (
                 <a
                   key={label}
                   href={href}
                   aria-label={label}
                   target="_blank"
                   rel="noreferrer"
-                  className="soc w-9 h-9 border border-neutral-200 flex items-center justify-center text-neutral-500 bg-white"
-                  title={label}
+                  className="w-10 h-10 border border-neutral-200 rounded-sm flex items-center justify-center text-neutral-500 bg-white hover:bg-neutral-950 hover:text-white hover:border-neutral-950 hover:-translate-y-0.5 transition-all duration-300"
                 >
                   <Icon />
                 </a>
               ))}
-              <span
-                className="text-neutral-300 font-black tracking-widest ml-2"
-                style={{ fontSize: "0.46rem" }}
-              >
+              <span className="text-red-700 font-bold tracking-widest text-xs ml-2">
                 FOLLOW US
               </span>
             </div>
           </motion.div>
 
-          {/* ── B: Nav columns (5/12) ── */}
-          <div className="lg:col-span-5 grid grid-cols-1 sm:grid-cols-3 gap-8">
-            {FOOTER_COLS.map(({ title, links }, ci) => (
-              <motion.div
-                key={title}
-                className={`colbdr border-l-2 pl-5 ${hovCol === ci ? "border-neutral-900" : "border-neutral-200"}`}
-                onMouseEnter={() => setHovCol(ci)}
-                onMouseLeave={() => setHovCol(null)}
-                initial={{ opacity: 0, y: 36 }}
-                animate={bodyInV ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.9, delay: ci * 0.07, ease: E }}
-              >
-                <p
-                  className="text-neutral-900 font-black tracking-[0.28em] uppercase mb-6"
-                  style={{ fontSize: "0.5rem" }}
+          {/* Column B: Primary System Links Grid + Properly Positioned Luxury Highlights */}
+          <div className="lg:col-span-5">
+            {/* Original System Links Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
+              {FOOTER_COLS.map(({ title, links }, ci) => (
+                <motion.div
+                  key={title}
+                  className={`border-l-2 pl-5 transition-colors duration-300 ${
+                    hovCol === ci ? "border-neutral-950" : "border-neutral-200"
+                  }`}
+                  onMouseEnter={() => setHovCol(ci)}
+                  onMouseLeave={() => setHovCol(null)}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={bodyInV ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.6, delay: ci * 0.05, ease: E }}
                 >
-                  {title}
+                  <h4 className="text-red-700 font-bold tracking-widest text-[18px] uppercase mb-6">
+                    {title}
+                  </h4>
+                  <ul className="space-y-4">
+                    {links.map(({ label, href }) => (
+                      <li key={label}>
+                        <Link
+                          href={href}
+                          className="group flex items-center text-neutral-700 hover:text-red-600 transition-colors duration-200 text-[14px] font-medium relative"
+                        >
+                          <ArrowRight
+                            size={12}
+                            className="mr-2 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200 shrink-0"
+                          />
+                          <span className="relative">
+                            {label}
+                            <span className="absolute left-0 bottom-0 w-0 h-[1px] bg-neutral-950 transition-all duration-300 group-hover:w-full" />
+                          </span>
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Positioned inside the white space without hitting the watermark text */}
+            <motion.div
+              className="mt-12 border-t border-neutral-200/60 pt-8 grid grid-cols-1 sm:grid-cols-3 gap-6"
+              initial={{ opacity: 0, y: 20 }}
+              animate={bodyInV ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: 0.2, ease: E }}
+            >
+              <div className="space-y-2">
+                <span className="block font-mono text-[12px] text-red-700 font-bold tracking-[0.15em]">
+                  01 / HERITAGE
+                </span>
+                <h5 className="text-[13px] font-black tracking-wider text-neutral-950 uppercase">
+                  Legacy Since 1983
+                </h5>
+                <p className="text-neutral-500 text-[12px] leading-relaxed font-medium">
+                  Nepal's definitive horizon for authentic global luxury
+                  watches.
                 </p>
-                <ul className="space-y-3.5">
-                  {links.map(({ label, href }) => (
-                    <li key={label}>
-                      <Link
-                        href={href}
-                        className="fl group text-neutral-500 hover:text-neutral-900 transition-colors duration-200 font-light gap-1.5"
-                        style={{ fontSize: "0.82rem" }}
-                      >
-                        <ArrowRight
-                          size={10}
-                          className="flex-shrink-0 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200"
-                        />
-                        {label}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </motion.div>
-            ))}
+              </div>
+              <div className="space-y-2">
+                <span className="block font-mono text-[12px] text-red-700 font-bold tracking-[0.15em]">
+                  02 / PRECISION
+                </span>
+                <h5 className="text-[13px] font-black tracking-wider text-neutral-950 uppercase">
+                  Certified Calibers
+                </h5>
+                <p className="text-neutral-500 text-[12px] leading-relaxed font-medium">
+                  Every piece passes standard chronometer validation
+                  evaluations.
+                </p>
+              </div>
+              <div className="space-y-2">
+                <span className="block font-mono text-[12px] text-red-700 font-bold tracking-[0.15em]">
+                  03 / CRAFT
+                </span>
+                <h5 className="text-[13px] font-black tracking-wider text-neutral-950 uppercase">
+                  Master Horology
+                </h5>
+                <p className="text-neutral-500 text-[12px] leading-relaxed font-medium">
+                  Bespoke assistance, lifetime care, and elite watch curation.
+                </p>
+              </div>
+            </motion.div>
           </div>
 
-          {/* ── C: Newsletter + cards (3/12) ── */}
+          {/* Column C: Interactive Actions & Operating Criteria */}
           <motion.div
-            className="lg:col-span-3 flex flex-col gap-4"
-            initial={{ opacity: 0, y: 36 }}
+            className="lg:col-span-3 flex flex-col gap-6"
+            initial={{ opacity: 0, y: 20 }}
             animate={bodyInV ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.9, delay: 0.22, ease: E }}
+            transition={{ duration: 0.6, delay: 0.15, ease: E }}
           >
-            {/* Newsletter card */}
-            <div className="relative border border-neutral-200 p-6 xl:p-7 overflow-hidden bg-neutral-50">
-              {/* Corner brackets */}
-              <div className="absolute top-0 right-0 w-7 h-7 border-t-2 border-r-2 border-neutral-900" />
-              <div className="absolute bottom-0 left-0 w-7 h-7 border-b-2 border-l-2 border-neutral-300" />
+            {/* Embedded Action Box */}
+            <div className="relative border border-neutral-200 p-6 bg-neutral-50/50 rounded-sm">
+              <div className="absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 border-neutral-950" />
+              <div className="absolute bottom-0 left-0 w-8 h-8 border-b-2 border-l-2 border-neutral-200" />
 
-              <p
-                className="text-neutral-900 font-black tracking-[0.24em] uppercase mb-2"
-                style={{ fontSize: "0.48rem" }}
-              >
+              <span className="block text-[10px] font-bold tracking-widest text-red-700 uppercase mb-1">
                 Newsletter
-              </p>
-              <h3
-                className="font-light text-neutral-900 leading-tight mb-2"
-                style={{
-                  fontSize: "1.75rem",
-                  fontFamily: "var(--font-cormorant,'Georgia',serif)",
-                }}
-              >
+              </span>
+              <h3 className="font-light text-neutral-950 text-2xl font-serif mb-2">
                 Stay in the{" "}
                 <em className="italic text-neutral-400 font-normal">loop</em>
               </h3>
-              <p
-                className="text-neutral-400 font-light mb-5 leading-relaxed"
-                style={{ fontSize: "0.7rem" }}
-              >
-                New arrivals, exclusive events & curated horological stories.
+              <p className="text-neutral-500 text-xs leading-relaxed mb-6">
+                New arrivals, luxury preview events & bespoke horological
+                insights.
               </p>
 
               {subscribed ? (
-                <div className="flex items-center gap-2.5 bg-neutral-900 text-white px-4 py-3">
-                  <Check size={13} strokeWidth={2.5} />
-                  <span
-                    className="font-black tracking-[0.18em]"
-                    style={{ fontSize: "0.58rem" }}
-                  >
-                    YOU'RE IN — WELCOME
+                <div className="flex items-center gap-3 bg-neutral-950 text-white px-4 py-3.5 rounded-sm">
+                  <Check size={16} className="text-white shrink-0" />
+                  <span className="font-bold tracking-wider text-xs">
+                    SUBSCRIPTION ACTIVATED
                   </span>
                 </div>
               ) : (
                 <form
                   onSubmit={handleSubscribe}
-                  className="flex flex-col gap-2"
+                  className="flex flex-col gap-2.5"
                 >
                   <input
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Your email address"
+                    placeholder="Enter your email address"
                     required
-                    className="nli w-full bg-white border border-neutral-200 text-neutral-900 px-4 py-3 font-light"
-                    style={{ fontSize: "0.8rem", fontFamily: "inherit" }}
+                    className="w-full bg-white border border-neutral-200 focus:border-neutral-950 text-neutral-900 px-4 py-3 text-sm rounded-sm transition-colors duration-200 outline-none placeholder:text-neutral-400"
                   />
                   <button
                     type="submit"
-                    className="nlbtn bg-neutral-900 text-white font-black px-4 py-3 flex items-center justify-center gap-2"
-                    style={{ fontSize: "0.6rem", letterSpacing: "0.2em" }}
+                    className="w-full bg-neutral-950 text-white font-bold text-xs tracking-widest py-3.5 rounded-sm flex items-center justify-center gap-2 hover:bg-neutral-800 transition-colors duration-200"
                   >
                     SUBSCRIBE
-                    <Send size={11} strokeWidth={2} />
+                    <Send size={12} />
                   </button>
                 </form>
               )}
-
-              <p
-                className="text-neutral-300 font-light mt-3"
-                style={{ fontSize: "0.58rem" }}
-              >
-                No spam. Unsubscribe anytime.
-              </p>
             </div>
 
-            {/* Authenticity badge */}
-            <div className="border border-neutral-200 bg-white px-5 py-4 flex items-center gap-3.5">
-              <div className="w-9 h-9 bg-neutral-900 flex items-center justify-center flex-shrink-0">
-                <Check size={14} strokeWidth={2.5} className="text-white" />
+            {/* Verification Tag */}
+            <div className="border border-neutral-200 bg-white p-4 flex items-center gap-4 rounded-sm">
+              <div className="w-10 h-10 bg-neutral-950 flex items-center justify-center shrink-0 rounded-sm">
+                <Check size={16} className="text-white" strokeWidth={3} />
               </div>
               <div>
-                <p
-                  className="text-neutral-900 font-black"
-                  style={{ fontSize: "0.65rem", letterSpacing: "0.06em" }}
-                >
-                  100% Authentic Guarantee
-                </p>
-                <p
-                  className="text-neutral-400 font-light mt-0.5"
-                  style={{ fontSize: "0.58rem" }}
-                >
+                <h5 className="text-neutral-950 font-bold text-xl">
+                  <span className="text-red-700">100%</span> Authentic Guarantee
+                </h5>
+                <p className="text-neutral-400 text-xs mt-0.5">
                   Every timepiece certified & verified
                 </p>
               </div>
             </div>
 
-            {/* Store hours */}
-            <div className="border border-neutral-200 bg-neutral-50 px-5 py-4">
-              <div className="flex items-center gap-2 mb-3">
-                <div className="open-dot w-1.5 h-1.5 rounded-full bg-green-500" />
-                <p
-                  className="text-neutral-900 font-black tracking-[0.22em] uppercase"
-                  style={{ fontSize: "0.46rem" }}
-                >
+            {/* Operating Hours Block */}
+            <div className="border border-neutral-200 bg-neutral-50/50 p-5 rounded-sm">
+              <div className="flex items-center gap-2 mb-4">
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                <h5 className="text-red-700 font-bold tracking-widest text-[14px] uppercase">
                   Store Hours
-                </p>
+                </h5>
               </div>
-              <div className="space-y-2">
+              <div className="space-y-2.5">
                 {STORE_HOURS.map(({ days, hours }) => (
                   <div
                     key={days}
-                    className="flex justify-between items-baseline gap-4"
+                    className="flex justify-between items-center text-sm"
                   >
-                    <span
-                      className="text-neutral-500 font-light"
-                      style={{ fontSize: "0.7rem" }}
-                    >
-                      {days}
-                    </span>
-                    <span
-                      className="text-neutral-900 font-semibold whitespace-nowrap"
-                      style={{ fontSize: "0.7rem" }}
-                    >
+                    <span className="text-neutral-500 font-medium">{days}</span>
+                    <span className="text-neutral-950 font-semibold whitespace-nowrap">
                       {hours}
                     </span>
                   </div>
@@ -564,21 +472,14 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* ══════════════════════════════════════════════════════
-          4 ─ BOTTOM BAR
-      ══════════════════════════════════════════════════════ */}
-      <div className="relative bg-neutral-50 border-t-2 border-neutral-900">
-        <div className="px-8 md:px-14 xl:px-20 py-5 flex flex-col sm:flex-row items-center justify-between gap-4">
-          {/* Copyright */}
-          <span
-            className="text-neutral-400 font-light tracking-widest uppercase"
-            style={{ fontSize: "0.52rem" }}
-          >
+      {/* ── Lower Utility Footer bar ── */}
+      <div className="border-t border-neutral-200 bg-neutral-50">
+        <div className="max-w-7xl mx-auto px-6 md:px-12 py-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-[12px] font-bold tracking-widest text-neutral-400">
+          <span className="uppercase text-center sm:text-left">
             © {new Date().getFullYear()} SULUX CENTRE · ALL RIGHTS RESERVED
           </span>
 
-          {/* Legal links */}
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-2">
             {[
               ["Privacy", "/privacy"],
               ["Terms", "/terms"],
@@ -587,25 +488,20 @@ export default function Footer() {
               <React.Fragment key={label}>
                 <Link
                   href={href}
-                  className="text-neutral-400 hover:text-neutral-900 transition-colors duration-200 font-light tracking-widest uppercase"
-                  style={{ fontSize: "0.52rem" }}
+                  className="hover:text-neutral-950 transition-colors duration-200 uppercase"
                 >
                   {label}
                 </Link>
                 {i < 2 && (
-                  <span className="text-neutral-200 mx-2.5 text-xs">·</span>
+                  <span className="text-neutral-200 select-none">·</span>
                 )}
               </React.Fragment>
             ))}
           </div>
 
-          {/* Nepali pride */}
-          <div
-            className="flex items-center gap-2 text-neutral-400 font-semibold tracking-widest uppercase"
-            style={{ fontSize: "0.52rem" }}
-          >
-            <span>🇳🇵</span>
-            <span>Proudly Nepali</span>
+          <div className="flex items-center gap-2 uppercase text-neutral-500">
+            <span className="text-base leading-none">🇳🇵</span>
+            <span className="font-black">Proudly Nepali</span>
           </div>
         </div>
       </div>

@@ -96,10 +96,10 @@ function MegaMenu({
             className={`px-8 py-9 border-r border-neutral-100 last:border-r-0 ${isBrand ? "col-span-2" : ""}`}
           >
             <div className="flex items-center gap-3 mb-7">
-              <div className="w-4 h-px bg-neutral-800" />
+              <div className="w-4 h-px bg-red-700" />
               <p
-                className="text-neutral-900 font-black tracking-[0.22em] uppercase"
-                style={{ fontSize: "0.58rem" }}
+                className="text-red-700 font-black tracking-[0.22em] uppercase"
+                style={{ fontSize: "0.8rem" }}
               >
                 {col.heading}
               </p>
@@ -130,15 +130,16 @@ function MegaMenu({
           <span className="w-1.5 h-1.5 rounded-full bg-green-500" />
           <span
             className="text-neutral-400 font-semibold tracking-[0.2em] uppercase"
-            style={{ fontSize: "0.46rem" }}
+            style={{ fontSize: "0.6rem" }}
           >
-            2,000+ Authentic Timepieces In Store
+            <span className="text-red-700 text-[16px]">2,000+</span> Authentic
+            Timepieces In Store
           </span>
         </div>
         <Link
           href="/shop"
-          className="flex items-center gap-2 text-neutral-900 font-black tracking-[0.18em] uppercase hover:gap-3.5 transition-all duration-250 group"
-          style={{ fontSize: "0.52rem" }}
+          className="flex items-center gap-2 text-neutral-900 font-black tracking-[0.18em] uppercase hover:gap-3.5 transition-all duration-250 group hover:text-red-700"
+          style={{ fontSize: "0.6rem" }}
         >
           View All
           <ArrowRight
@@ -317,14 +318,14 @@ const Navbar = () => {
       {/* ══ MAIN NAV ══ */}
       <nav
         className={`fixed left-0 w-full z-40 flex items-center justify-between px-6 sm:px-8 md:px-12 xl:px-16 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]
-        ${scrolled ? "nav-scrolled top-0 py-3 md:py-3.5" : "nav-transparent top-8 py-3 md:py-4"}`}
+        ${scrolled ? "nav-scrolled top-0 py-4 md:py-3.5" : "nav-transparent top-8 py-3 md:py-4"}`}
       >
         {/* ── Logo ── */}
         <Link href="/" className="flex-shrink-0 group block">
           <Image
             src={logo}
             alt="Sulux Centre"
-            className={`w-auto object-contain transition-all duration-500 group-hover:opacity-55 ${scrolled ? "h-8 md:h-11" : "h-10 md:h-14"}`}
+            className={`w-auto object-contain transition-all duration-500 group-hover:opacity-55 ${scrolled ? "h-10 md:h-11" : "h-10 md:h-14"}`}
             priority
           />
         </Link>
@@ -568,7 +569,7 @@ const Navbar = () => {
           />
 
           {/* Drawer panel */}
-          <aside className="drawer-slide fixed top-0 left-0 h-full w-[300px] sm:w-[340px] z-[60] bg-white flex flex-col shadow-[4px_0_48px_rgba(0,0,0,0.14)]">
+          <aside className="drawer-slide fixed top-0 left-0 h-full w-full z-[60] bg-white flex flex-col shadow-[4px_0_48px_rgba(0,0,0,0.14)]">
             {/* Header */}
             <div className="flex items-center justify-between px-6 py-4 border-b border-neutral-100">
               <Image
@@ -638,7 +639,7 @@ const Navbar = () => {
                             <div className="flex items-center gap-2.5">
                               <div className="w-2.5 h-px bg-neutral-300" />
                               <span
-                                className="font-black tracking-[0.2em] uppercase text-neutral-900"
+                                className="font-black tracking-[0.2em] uppercase text-red-700"
                                 style={{ fontSize: "0.6rem" }}
                               >
                                 {section.heading}
