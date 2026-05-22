@@ -339,9 +339,9 @@ export default function NotFound() {
             <div className="w-5 h-px bg-white/30" />
             <span
               className="text-white/35 font-bold tracking-[0.3em] uppercase"
-              style={{ fontSize: "0.5rem" }}
+              style={{ fontSize: "0.8rem" }}
             >
-              Error 404
+              Error <span className="text-red-700 text-[18px]">404</span>
             </span>
           </div>
 
@@ -354,7 +354,7 @@ export default function NotFound() {
               This page has
               <br />
               <em className="italic text-white/42 font-normal">
-                stopped ticking.
+                <span className="text-red-700">stopped</span> ticking.
               </em>
             </h1>
           </div>
@@ -374,7 +374,7 @@ export default function NotFound() {
           {/* Body */}
           <p
             className={`${r("0.6s")} cormorant italic text-white/38 font-light leading-relaxed mb-9`}
-            style={{ fontSize: "1.0rem", maxWidth: "380px" }}
+            style={{ fontSize: "1.1rem", maxWidth: "380px" }}
           >
             The page you're looking for doesn't exist or has been moved. Let us
             help you find the right timepiece.

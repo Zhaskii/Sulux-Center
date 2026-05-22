@@ -548,12 +548,12 @@ function ProductCard({
   return (
     <motion.article
       layout
-      initial={{ opacity: 0, y: 28 }}
+      initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.97 }}
       transition={{
-        duration: 0.8,
-        delay: Math.min(index * 0.06, 0.4),
+        duration: 0.45,
+        delay: Math.min(index * 0.04, 0.25),
         ease: E,
       }}
       className="group flex flex-col bg-stone-900/30 rounded-lg border border-stone-800/80 overflow-hidden hover:border-stone-600 hover:shadow-[0_20px_50px_rgba(0,0,0,0.4)] transition-all duration-500"
@@ -684,19 +684,14 @@ export default function BrandWatches({
     <div className="min-h-screen bg-stone-950 text-stone-100 font-sans antialiased selection:bg-stone-800 pt-12">
       {/* ── Header ── */}
       <motion.header
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.6, ease: E }}
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, ease: E }}
         className="bg-transparent border-b border-stone-900/80 relative z-10"
       >
         <div className="max-w-7xl mx-auto px-6 md:px-12 py-6 md:py-8 flex flex-col gap-4">
           {/* Breadcrumb */}
-          <motion.nav
-            initial={{ opacity: 0, y: -8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1, ease: E }}
-            className="flex items-center gap-2 text-[12px] font-bold tracking-[0.2em] uppercase text-stone-500"
-          >
+          <nav className="flex items-center gap-2 text-[12px] font-bold tracking-[0.2em] uppercase text-stone-500">
             {["Home", "Collections", brandName].map((label, i, arr) => (
               <React.Fragment key={label}>
                 {i < arr.length - 1 ? (
@@ -714,39 +709,26 @@ export default function BrandWatches({
                 )}
               </React.Fragment>
             ))}
-          </motion.nav>
+          </nav>
 
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
             <div>
-              <motion.p
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 0.15, ease: E }}
-                className="text-[11px] font-bold tracking-[0.3em] uppercase text-[#ef312e] mb-1.5"
-              >
+              <p className="text-[11px] font-bold tracking-[0.3em] uppercase text-[#ef312e] mb-1.5">
                 Authorized Haute Horlogerie Retailer · Est. 1983
-              </motion.p>
-              <motion.h1
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.2, ease: E }}
+              </p>
+              <h1
                 className="text-4xl md:text-6xl font-light tracking-tight text-stone-50 leading-none"
                 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
               >
                 {brandName}
-              </motion.h1>
+              </h1>
             </div>
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8, delay: 0.3, ease: E }}
-              className="flex items-center gap-2.5 self-start sm:self-auto bg-stone-900/60 border border-stone-800/80 px-4 py-2 rounded-full"
-            >
+            <div className="flex items-center gap-2.5 self-start sm:self-auto bg-stone-900/60 border border-stone-800/80 px-4 py-2 rounded-full">
               <div className="h-1.5 w-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.6)]" />
               <span className="text-[14px] font-medium text-stone-400 tracking-wide">
                 {products.length} Curated Masterpieces
               </span>
-            </motion.div>
+            </div>
           </div>
         </div>
       </motion.header>
@@ -755,24 +737,15 @@ export default function BrandWatches({
       <div className="max-w-7xl mx-auto px-6 md:px-12 py-10 md:py-14">
         <div className="flex gap-10 lg:gap-12">
           {/* Desktop Sidebar */}
-          <motion.div
-            initial={{ opacity: 0, x: -16 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.35, ease: E }}
+          <FiltersPanel
             className="hidden lg:block w-[260px] shrink-0"
-          >
-            <FiltersPanel className="w-full" {...filterProps} />
-          </motion.div>
+            {...filterProps}
+          />
 
           {/* Main */}
           <div className="flex-1 min-w-0">
             {/* Toolbar */}
-            <motion.div
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.3, ease: E }}
-              className="flex flex-wrap items-center justify-between gap-4 mb-8 pb-4 border-b border-stone-900"
-            >
+            <div className="flex flex-wrap items-center justify-between gap-4 mb-8 pb-4 border-b border-stone-900">
               <div className="flex items-center gap-3">
                 {/* Mobile filter */}
                 <button
@@ -822,7 +795,7 @@ export default function BrandWatches({
                   className="absolute right-3 text-stone-500 pointer-events-none"
                 />
               </div>
-            </motion.div>
+            </div>
 
             {/* Active chips */}
             {activeCount > 0 && (
