@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import "@/app/globals.css"; // Central font and global CSS injection
+import "@/app/globals.css";
+
 import { Cormorant_Garamond } from "next/font/google";
 
 const displayFont = Cormorant_Garamond({
@@ -10,19 +11,21 @@ const displayFont = Cormorant_Garamond({
 });
 
 export const metadata: Metadata = {
-  title: "Sulux Centre | Luxury Watches & Authentic Timepieces",
-  description: "Nepal's premier destination for authentic luxury watches.",
+  title: "Sulux Centre | Authentication",
+  description: "Access your private horological collection profile.",
 };
 
-export default function GlobalRootLayout({
+export default function GuestLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
     <html lang="en" className={`${displayFont.variable} antialiased`}>
-      <body className="min-h-screen bg-white text-neutral-900 font-sans">
-        {/* Next.js routes everything through here first */}
+      {/* NO Navbar or Footer components are imported or rendered here. 
+        This keeps your registration screen flawlessly clean and centered.
+      */}
+      <body className="min-h-screen flex flex-col bg-white text-neutral-900 font-sans">
         {children}
       </body>
     </html>

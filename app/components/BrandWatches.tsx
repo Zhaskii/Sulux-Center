@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -12,11 +11,8 @@ import {
   ArrowUpDown,
   ArrowRight,
 } from "lucide-react";
-
 // ── Types ─────────────────────────────────────────────────────
-
 type ProductStatus = "in_stock" | "out_of_stock" | "variants";
-
 export type WatchProduct = {
   id: string;
   name: string;
@@ -31,14 +27,11 @@ export type WatchProduct = {
   status: ProductStatus;
   createdAt: number;
 };
-
 export type BrandWatchesProps = {
   brandName?: string;
   products?: WatchProduct[];
 };
-
 // ── Config ────────────────────────────────────────────────────
-
 const FILTER_GROUPS = [
   {
     id: "collection",
@@ -88,7 +81,6 @@ const FILTER_GROUPS = [
   },
   { id: "movement", label: "Movement", options: ["Automatic", "Quartz"] },
 ];
-
 const SORT_OPTIONS = [
   { value: "newest", label: "Latest Releases" },
   { value: "price_asc", label: "Price: Low to High" },
@@ -96,7 +88,6 @@ const SORT_OPTIONS = [
   { value: "name", label: "Model: A–Z" },
 ] as const;
 type SortValue = (typeof SORT_OPTIONS)[number]["value"];
-
 const DEFAULT_PRODUCTS: WatchProduct[] = [
   {
     id: "ml-1",
@@ -279,16 +270,13 @@ const DEFAULT_PRODUCTS: WatchProduct[] = [
     createdAt: 1,
   },
 ];
-
 // ── Helpers ───────────────────────────────────────────────────
-
 const fmt = (n: number) => `Rs. ${n.toLocaleString("en-IN")}`;
 const parseNum = (v: string) => {
   const n = parseInt(v.replace(/\D/g, ""), 10);
   return isFinite(n) ? n : null;
 };
 type ActiveFilters = Record<string, Set<string>>;
-
 function matches(
   p: WatchProduct,
   f: ActiveFilters,
@@ -304,11 +292,8 @@ function matches(
   }
   return true;
 }
-
 const E = [0.16, 1, 0.3, 1] as const;
-
 // ── Filter Checkbox ───────────────────────────────────────────
-
 function Checkbox({
   id,
   label,
@@ -365,9 +350,7 @@ function Checkbox({
     </label>
   );
 }
-
 // ── Filter Section ────────────────────────────────────────────
-
 function FilterSection({
   group,
   filters,
@@ -435,9 +418,7 @@ function FilterSection({
     </div>
   );
 }
-
 // ── Filters Panel ─────────────────────────────────────────────
-
 function FiltersPanel({
   filters,
   priceFrom,
@@ -513,30 +494,24 @@ function FiltersPanel({
     </aside>
   );
 }
-
 // ── Product Card ──────────────────────────────────────────────
-
 const STATUS = {
   in_stock: {
     badge: null,
-    btn: "bg-stone-100 hover:bg-stone-200 text-stone-950 cursor-pointer border border-transparent shadow-sm",
-    label: "Add to Cart",
+    btn: "bg-stone-100 hover:bg-stone-200 text-stone-950 cursor-pointer border border-transparent shadow-sm hover:scale-[1.04]",
   },
   out_of_stock: {
     badge: {
       text: "Sold Out",
       cls: "bg-stone-900 text-stone-400 border border-stone-800",
     },
-    btn: "bg-stone-900/40 border border-stone-800 text-stone-500 cursor-not-allowed",
-    label: "Out of Stock",
+    btn: "bg-stone-900/40 border border-stone-800 text-stone-600 cursor-not-allowed opacity-50",
   },
   variants: {
     badge: { text: "Exclusive selections", cls: "bg-[#ef312e] text-white" },
     btn: null,
-    label: null,
   },
 };
-
 function ProductCard({
   product: p,
   index,
@@ -584,7 +559,6 @@ function ProductCard({
           </span>
         </div>
       </Link>
-
       <div className="flex flex-1 flex-col p-5 bg-stone-900/40">
         <span className="text-[11px] font-bold tracking-[0.25em] uppercase text-[#ef312e] mb-1.5">
           {p.collection}
@@ -594,25 +568,28 @@ function ProductCard({
             {p.name}
           </h3>
         </Link>
-        <div className="mt-auto pt-3 border-t border-stone-800/80 flex flex-col gap-3">
+        <div className="mt-auto pt-3 border-t border-stone-800/80 flex items-center justify-between gap-4">
           <p className="text-stone-100 font-semibold text-[16px] tracking-tight">
             {fmt(p.price)}
           </p>
-
           {p.status === "variants" ? (
             <Link
               href={`/shop/product/${p.id}`}
-              className="block w-full border border-stone-700 rounded-[4px] text-stone-200 hover:bg-stone-100 hover:text-stone-950 py-2 text-center font-bold tracking-[0.15em] uppercase text-[12px] transition-all duration-300 shadow-sm"
+              className="flex items-center justify-center h-9 w-9 rounded-full border border-stone-700 text-stone-200 hover:bg-stone-100 hover:text-red-700 transition-all duration-300 shadow-sm shrink-0"
+              title="View Editions"
             >
-              View Editions
+              <ArrowRight size={15} />
             </Link>
           ) : (
             <button
               type="button"
               disabled={p.status === "out_of_stock"}
-              className={`w-full py-2 rounded-[4px] font-bold tracking-[0.15em] uppercase text-[12px] transition-all duration-300 ${st.btn}`}
+              className={`flex items-center justify-center h-9 w-9 rounded-full transition-all duration-300 shrink-0 ${st.btn}`}
+              title={
+                p.status === "out_of_stock" ? "Out of Stock" : "Add to Cart"
+              }
             >
-              {st.label}
+              <ShoppingBag size={17} />
             </button>
           )}
         </div>
@@ -620,9 +597,7 @@ function ProductCard({
     </motion.article>
   );
 }
-
 // ── Main Page ─────────────────────────────────────────────────
-
 export default function BrandWatches({
   brandName = "Maurice Lacroix",
   products = DEFAULT_PRODUCTS,
@@ -634,17 +609,14 @@ export default function BrandWatches({
   const [priceTo, setPriceTo] = useState("");
   const [sort, setSort] = useState<SortValue>("newest");
   const [mobileOpen, setMobileOpen] = useState(false);
-
   const priceMin = parseNum(priceFrom),
     priceMax = parseNum(priceTo);
-
   const toggleFilter = (groupId: string, option: string) =>
     setFilters((prev) => {
       const set = new Set(prev[groupId]);
       set.has(option) ? set.delete(option) : set.add(option);
       return { ...prev, [groupId]: set };
     });
-
   const clearFilters = () => {
     setFilters(
       Object.fromEntries(FILTER_GROUPS.map((g) => [g.id, new Set<string>()])),
@@ -652,12 +624,10 @@ export default function BrandWatches({
     setPriceFrom("");
     setPriceTo("");
   };
-
   const activeCount =
     Object.values(filters).reduce((n, s) => n + s.size, 0) +
     (priceFrom ? 1 : 0) +
     (priceTo ? 1 : 0);
-
   const filtered = useMemo(() => {
     let list = products.filter((p) => matches(p, filters, priceMin, priceMax));
     if (sort === "price_asc")
@@ -669,7 +639,6 @@ export default function BrandWatches({
     else list = [...list].sort((a, b) => b.createdAt - a.createdAt);
     return list;
   }, [products, filters, priceMin, priceMax, sort]);
-
   const filterProps = {
     filters,
     priceFrom,
@@ -679,7 +648,6 @@ export default function BrandWatches({
     onPriceTo: setPriceTo,
     onClear: clearFilters,
   };
-
   return (
     <div className="min-h-screen bg-stone-950 text-stone-100 font-sans antialiased selection:bg-stone-800 pt-12">
       {/* ── Header ── */}
@@ -710,14 +678,13 @@ export default function BrandWatches({
               </React.Fragment>
             ))}
           </nav>
-
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
             <div>
               <p className="text-[11px] font-bold tracking-[0.3em] uppercase text-[#ef312e] mb-1.5">
                 Authorized Haute Horlogerie Retailer · Est. 1983
               </p>
               <h1
-                className="text-4xl md:text-6xl font-light tracking-tight text-stone-50 leading-none"
+                className="text-4xl md:text-6xl font-light tracking-tight text-stone-55 leading-none"
                 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
               >
                 {brandName}
@@ -732,7 +699,6 @@ export default function BrandWatches({
           </div>
         </div>
       </motion.header>
-
       {/* ── Body ── */}
       <div className="max-w-7xl mx-auto px-6 md:px-12 py-10 md:py-14">
         <div className="flex gap-10 lg:gap-12">
@@ -741,7 +707,6 @@ export default function BrandWatches({
             className="hidden lg:block w-[260px] shrink-0"
             {...filterProps}
           />
-
           {/* Main */}
           <div className="flex-1 min-w-0">
             {/* Toolbar */}
@@ -768,7 +733,6 @@ export default function BrandWatches({
                   exquisite results
                 </p>
               </div>
-
               {/* Sort */}
               <div className="relative flex items-center shadow-sm rounded-[4px] bg-stone-900 overflow-hidden border border-stone-800 hover:border-stone-600 transition-colors duration-300">
                 <ArrowUpDown
@@ -796,7 +760,6 @@ export default function BrandWatches({
                 />
               </div>
             </div>
-
             {/* Active chips */}
             {activeCount > 0 && (
               <motion.div
@@ -829,7 +792,6 @@ export default function BrandWatches({
                 )}
               </motion.div>
             )}
-
             {/* Grid */}
             <AnimatePresence mode="popLayout">
               {filtered.length > 0 ? (
@@ -883,7 +845,6 @@ export default function BrandWatches({
           </div>
         </div>
       </div>
-
       {/* ── Mobile Drawer ── */}
       <AnimatePresence>
         {mobileOpen && (

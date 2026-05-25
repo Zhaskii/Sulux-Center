@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
-import "@/app/globals.css"; // Central font and global CSS injection
+import "@/app/globals.css"; // This loads your Barlow and Cormorant fonts
+
 import { Cormorant_Garamond } from "next/font/google";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 const displayFont = Cormorant_Garamond({
   subsets: ["latin"],
@@ -14,16 +17,20 @@ export const metadata: Metadata = {
   description: "Nepal's premier destination for authentic luxury watches.",
 };
 
-export default function GlobalRootLayout({
+export default function StoreLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
     <html lang="en" className={`${displayFont.variable} antialiased`}>
-      <body className="min-h-screen bg-white text-neutral-900 font-sans">
-        {/* Next.js routes everything through here first */}
-        {children}
+      <body className="min-h-screen flex flex-col bg-white text-neutral-900 font-sans">
+        <Navbar />
+
+        {/* Keeps your fixed layout spacing padding intact */}
+        <main className="flex-1 pt-20">{children}</main>
+
+        <Footer />
       </body>
     </html>
   );

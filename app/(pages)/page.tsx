@@ -4,9 +4,9 @@ import type { Metadata } from "next";
 // This ensures the main H1 and initial "above-the-fold" content
 // is present in the initial HTML sent to search engines.
 import Hero from "@/app/components/Hero";
-import AboutWatch from "./components/AboutWatch";
-import WatchCarousel from "./components/WatchCarousel";
-import WatchSlider from "./components/WatchSlider";
+import WatchCarousel from "../components/WatchCarousel";
+import WatchSlider from "../components/WatchSlider";
+import AboutWatch from "../components/AboutWatch";
 
 export const metadata: Metadata = {
   title: "Sulux Centre | Luxury Watches & Authentic Timepieces in Nepal",

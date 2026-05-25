@@ -423,7 +423,7 @@ const Navbar = () => {
 
           {/* Account */}
           <Link
-            href="/account"
+            href="/login"
             aria-label="Account"
             className="icon-btn text-neutral-900 hidden sm:block"
           >

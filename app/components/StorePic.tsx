@@ -121,7 +121,7 @@ export default function StorePic() {
   }));
 
   return (
-    <section className="bg-white overflow-hidden">
+    <section className="bg-white overflow-hidden mt-3 md:mt-9">
       <style>{`
         /* ═══════════════════════════════════════════════════
            LIGHTBOX — premium dark editorial theme
@@ -286,7 +286,7 @@ export default function StorePic() {
       {/* ══ HEADER ══ */}
       <div
         ref={headerRef}
-        className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-20 pt-16 md:pt-20 pb-10 md:pb-14"
+        className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-20 pt-16 md:pt-20 pb-10 md:pb-14 "
       >
         <motion.div
           initial={{ opacity: 0, x: -20 }}
