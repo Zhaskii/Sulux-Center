@@ -293,7 +293,7 @@ export default function ContactPage() {
             <SplitHeading
               text="Timepieces."
               delay={0.38}
-              className="italic text-white/45 font-normal"
+              className="italic text-neutral-400 font-normal"
             />
           </h1>
 
@@ -385,7 +385,7 @@ export default function ContactPage() {
                 <div className="w-5 h-px bg-white/30" />
                 <span
                   className="text-white/30 font-bold tracking-[0.3em] uppercase"
-                  style={{ fontSize: "0.5rem" }}
+                  style={{ fontSize: "0.8rem" }}
                 >
                   Send a Message
                 </span>
@@ -492,9 +492,9 @@ export default function ContactPage() {
                     <div key={name}>
                       <label
                         className="block text-white/35 font-bold tracking-[0.2em] uppercase mb-2"
-                        style={{ fontSize: "0.46rem" }}
+                        style={{ fontSize: "0.7rem" }}
                       >
-                        {label} <span className="text-white/20">*</span>
+                        {label} <span className="text-white/50">*</span>
                       </label>
                       <input
                         name={name}
@@ -533,10 +533,10 @@ export default function ContactPage() {
                     <div key={name}>
                       <label
                         className="block text-white/35 font-bold tracking-[0.2em] uppercase mb-2"
-                        style={{ fontSize: "0.46rem" }}
+                        style={{ fontSize: "0.7rem" }}
                       >
                         {label}{" "}
-                        {required && <span className="text-white/20">*</span>}
+                        {required && <span className="text-white/50">*</span>}
                       </label>
                       <input
                         name={name}
@@ -558,9 +558,9 @@ export default function ContactPage() {
                   <div>
                     <label
                       className="block text-white/35 font-bold tracking-[0.2em] uppercase mb-2"
-                      style={{ fontSize: "0.46rem" }}
+                      style={{ fontSize: "0.7rem" }}
                     >
-                      Enquiry Type <span className="text-white/20">*</span>
+                      Enquiry Type <span className="text-white/50">*</span>
                     </label>
                     <div className="relative">
                       <select
@@ -591,7 +591,7 @@ export default function ContactPage() {
                   <div>
                     <label
                       className="block text-white/35 font-bold tracking-[0.2em] uppercase mb-2"
-                      style={{ fontSize: "0.46rem" }}
+                      style={{ fontSize: "0.7rem" }}
                     >
                       Brand of Interest
                     </label>
@@ -622,9 +622,9 @@ export default function ContactPage() {
                 <div>
                   <label
                     className="block text-white/35 font-bold tracking-[0.2em] uppercase mb-2"
-                    style={{ fontSize: "0.46rem" }}
+                    style={{ fontSize: "0.7rem" }}
                   >
-                    Your Message <span className="text-white/20">*</span>
+                    Your Message <span className="text-white/50">*</span>
                   </label>
                   <textarea
                     name="message"
@@ -650,8 +650,8 @@ export default function ContactPage() {
                   />
                   <label
                     htmlFor="newsletter"
-                    className="text-white/35 font-light cursor-pointer leading-relaxed"
-                    style={{ fontSize: "0.72rem" }}
+                    className="text-white/40 font-light cursor-pointer leading-relaxed"
+                    style={{ fontSize: "0.8rem" }}
                   >
                     Keep me updated on new arrivals, exclusive events and
                     curated collections.
@@ -771,8 +771,8 @@ export default function ContactPage() {
               {/* What to expect */}
               <div className="border border-white/[0.07] bg-white/[0.01] p-6">
                 <p
-                  className="text-white/28 font-black tracking-[0.24em] uppercase mb-5"
-                  style={{ fontSize: "0.44rem" }}
+                  className="text-white/60 font-black tracking-[0.24em] uppercase mb-5"
+                  style={{ fontSize: "0.8rem" }}
                 >
                   What to Expect
                 </p>
@@ -797,8 +797,8 @@ export default function ContactPage() {
                   ].map(({ step, text }) => (
                     <div key={step} className="flex gap-4">
                       <span
-                        className="text-white/20 font-black flex-shrink-0"
-                        style={{ fontSize: "0.7rem", letterSpacing: "0.1em" }}
+                        className="text-white/40 font-black flex-shrink-0"
+                        style={{ fontSize: "0.75rem", letterSpacing: "0.1em" }}
                       >
                         {step}
                       </span>

@@ -449,7 +449,7 @@ export default function Profile() {
                           {item.collection}
                         </p>
                         <h3
-                          className="text-[15px] font-light text-neutral-900 leading-snug mb-4 flex-1"
+                          className="text-[16px] font-light text-neutral-900 leading-snug mb-4 flex-1"
                           style={{ fontFamily: "'Georgia', serif" }}
                         >
                           {item.name}
