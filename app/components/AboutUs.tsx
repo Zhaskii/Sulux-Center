@@ -272,7 +272,7 @@ export default function AboutUs() {
             <div className="w-6 h-px bg-white/25" />
             <span
               className="text-white/60 font-bold tracking-[0.38em] uppercase about-lead-shadow"
-              style={{ fontSize: "0.8rem" }}
+              style={{ fontSize: "0.9rem" }}
             >
               Our Heritage
             </span>
@@ -287,11 +287,11 @@ export default function AboutUs() {
               fontSize: "clamp(4rem, 13vw, 11rem)",
             }}
           >
-            <SplitHeading text="Sulux" delay={0.4} />{" "}
+            <SplitHeading text="Sulux" delay={0.4} />
             <SplitHeading
               text="Centre"
               delay={0.52}
-              className="italic text-white/65 font-normal"
+              className=" text-white/65 font-normal"
             />
           </h1>
 

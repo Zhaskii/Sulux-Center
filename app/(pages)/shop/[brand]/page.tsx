@@ -1,4 +1,5 @@
-import BrandWatches from "@/app/components/BrandWatches";
+import Product from "@/app/components/Product";
+import BrandWatches from "@/app/components/Product";
 import { Metadata } from "next";
 
 interface Props {
@@ -29,5 +30,5 @@ export default async function DynamicBrandPage({ params }: Props) {
   const { brand } = await params;
   const cleanBrandName = formatBrandName(brand);
 
-  return <BrandWatches brandName={cleanBrandName} />;
+  return <Product brandName={cleanBrandName} />;
 }

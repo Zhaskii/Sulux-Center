@@ -297,7 +297,7 @@ export default function StorePic() {
           <div className="w-5 h-px bg-neutral-400" />
           <span
             className="text-neutral-400 font-black tracking-[0.32em] uppercase"
-            style={{ fontSize: "0.8rem" }}
+            style={{ fontSize: "0.9rem" }}
           >
             Sulux Centre Boutique · Est. 1983
           </span>
@@ -316,8 +316,8 @@ export default function StorePic() {
                 fontSize: "clamp(2.2rem, 5vw, 4rem)",
               }}
             >
-              Inside Our{" "}
-              <em className="italic font-normal text-neutral-400">Boutique</em>
+              Inside Our
+              <em className="font-normal text-neutral-400">Boutique</em>
             </motion.h2>
           </div>
 

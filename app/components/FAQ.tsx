@@ -307,7 +307,7 @@ export default function FAQ() {
             <SplitHeading
               text="Asked"
               delay={0.52}
-              className="italic text-white/70 font-normal"
+              className=" text-white/70 font-normal"
             />{" "}
             <SplitHeading text="Questions." delay={0.64} />
           </h1>

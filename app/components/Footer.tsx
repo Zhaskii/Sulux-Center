@@ -241,7 +241,7 @@ export default function Footer() {
               />
             </Link>
 
-            <p className="text-neutral-500 text-lg italic leading-relaxed font-serif max-w-sm">
+            <p className="text-neutral-600 text-lg italic leading-relaxed font-serif max-w-sm">
               "Curating the world's finest timepieces for over four decades —
               where every watch tells a story."
             </p>
@@ -259,10 +259,10 @@ export default function Footer() {
                     <Icon className="h-4 w-4" strokeWidth={1.5} />
                   </div>
                   <div>
-                    <span className="block text-[11px] font-bold tracking-widest text-red-700 uppercase">
+                    <span className="block text-[16px] font-bold tracking-widest text-red-700 uppercase">
                       {label}
                     </span>
-                    <span className="text-neutral-700 font-medium text-sm group-hover:text-neutral-950 transition-colors duration-200">
+                    <span className="text-neutral-700 font-medium text-[14px] group-hover:text-neutral-950 transition-colors duration-200">
                       {text}
                     </span>
                   </div>
@@ -305,7 +305,7 @@ export default function Footer() {
                   animate={bodyInV ? { opacity: 1, y: 0 } : {}}
                   transition={{ duration: 0.6, delay: ci * 0.05, ease: E }}
                 >
-                  <h4 className="text-red-700 font-bold tracking-widest text-[18px] uppercase mb-6">
+                  <h4 className="text-red-700 font-bold tracking-widest text-[19px] uppercase mb-6">
                     {title}
                   </h4>
                   <ul className="space-y-4">
@@ -313,7 +313,7 @@ export default function Footer() {
                       <li key={label}>
                         <Link
                           href={href}
-                          className="group flex items-center text-neutral-700 hover:text-red-600 transition-colors duration-200 text-[14px] font-medium relative"
+                          className="group flex items-center text-neutral-700 hover:text-red-600 transition-colors duration-200 text-[15px] font-medium relative"
                         >
                           <ArrowRight
                             size={12}
@@ -339,37 +339,37 @@ export default function Footer() {
               transition={{ duration: 0.6, delay: 0.2, ease: E }}
             >
               <div className="space-y-2">
-                <span className="block font-mono text-[12px] text-red-700 font-bold tracking-[0.15em]">
-                  01 / HERITAGE
+                <span className="block font-mono text-[16px] text-red-700 font-bold tracking-[0.15em]">
+                  01/ HERITAGE
                 </span>
-                <h5 className="text-[13px] font-black tracking-wider text-neutral-950 uppercase">
+                <h5 className="text-[14px] font-black tracking-wider text-neutral-950 uppercase">
                   Legacy Since 1983
                 </h5>
-                <p className="text-neutral-500 text-[12px] leading-relaxed font-medium">
+                <p className="text-neutral-600 text-[13px] leading-relaxed font-medium">
                   Nepal's definitive horizon for authentic global luxury
                   watches.
                 </p>
               </div>
               <div className="space-y-2">
-                <span className="block font-mono text-[12px] text-red-700 font-bold tracking-[0.15em]">
-                  02 / PRECISION
+                <span className="block font-mono text-[16px] text-red-700 font-bold tracking-[0.15em]">
+                  02/ PRECISION
                 </span>
-                <h5 className="text-[13px] font-black tracking-wider text-neutral-950 uppercase">
+                <h5 className="text-[14px] font-black tracking-wider text-neutral-950 uppercase">
                   Certified Calibers
                 </h5>
-                <p className="text-neutral-500 text-[12px] leading-relaxed font-medium">
+                <p className="text-neutral-600 text-[13px] leading-relaxed font-medium">
                   Every piece passes standard chronometer validation
                   evaluations.
                 </p>
               </div>
               <div className="space-y-2">
-                <span className="block font-mono text-[12px] text-red-700 font-bold tracking-[0.15em]">
-                  03 / CRAFT
+                <span className="block font-mono text-[16px] text-red-700 font-bold tracking-[0.15em]">
+                  03/ CRAFT
                 </span>
-                <h5 className="text-[13px] font-black tracking-wider text-neutral-950 uppercase">
+                <h5 className="text-[14px] font-black tracking-wider text-neutral-950 uppercase">
                   Master Horology
                 </h5>
-                <p className="text-neutral-500 text-[12px] leading-relaxed font-medium">
+                <p className="text-neutral-600 text-[13px] leading-relaxed font-medium">
                   Bespoke assistance, lifetime care, and elite watch curation.
                 </p>
               </div>
@@ -388,14 +388,14 @@ export default function Footer() {
               <div className="absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 border-neutral-950" />
               <div className="absolute bottom-0 left-0 w-8 h-8 border-b-2 border-l-2 border-neutral-200" />
 
-              <span className="block text-[10px] font-bold tracking-widest text-red-700 uppercase mb-1">
+              <span className="block text-[12px] font-bold tracking-widest text-red-700 uppercase mb-1">
                 Newsletter
               </span>
               <h3 className="font-light text-neutral-950 text-2xl font-serif mb-2">
                 Stay in the{" "}
                 <em className="italic text-neutral-400 font-normal">loop</em>
               </h3>
-              <p className="text-neutral-500 text-xs leading-relaxed mb-6">
+              <p className="text-neutral-600 text-[14px] leading-relaxed mb-6">
                 New arrivals, luxury preview events & bespoke horological
                 insights.
               </p>
@@ -440,7 +440,7 @@ export default function Footer() {
                 <h5 className="text-neutral-950 font-bold text-xl">
                   <span className="text-red-700">100%</span> Authentic Guarantee
                 </h5>
-                <p className="text-neutral-400 text-xs mt-0.5">
+                <p className="text-neutral-600 text-[14px] mt-0.5">
                   Every timepiece certified & verified
                 </p>
               </div>
@@ -450,7 +450,7 @@ export default function Footer() {
             <div className="border border-neutral-200 bg-neutral-50/50 p-5 rounded-sm">
               <div className="flex items-center gap-2 mb-4">
                 <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                <h5 className="text-red-700 font-bold tracking-widest text-[14px] uppercase">
+                <h5 className="text-red-700 font-bold tracking-widest text-[17px] uppercase">
                   Store Hours
                 </h5>
               </div>
@@ -458,7 +458,7 @@ export default function Footer() {
                 {STORE_HOURS.map(({ days, hours }) => (
                   <div
                     key={days}
-                    className="flex justify-between items-center text-sm"
+                    className="flex justify-between items-center text-[14px]"
                   >
                     <span className="text-neutral-500 font-medium">{days}</span>
                     <span className="text-neutral-950 font-semibold whitespace-nowrap">

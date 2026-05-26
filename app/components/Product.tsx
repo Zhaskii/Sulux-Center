@@ -11,6 +11,7 @@ import {
   ArrowUpDown,
   ArrowRight,
 } from "lucide-react";
+
 // ── Types ─────────────────────────────────────────────────────
 type ProductStatus = "in_stock" | "out_of_stock" | "variants";
 export type WatchProduct = {
@@ -31,6 +32,7 @@ export type BrandWatchesProps = {
   brandName?: string;
   products?: WatchProduct[];
 };
+
 // ── Config ────────────────────────────────────────────────────
 const FILTER_GROUPS = [
   {
@@ -81,13 +83,16 @@ const FILTER_GROUPS = [
   },
   { id: "movement", label: "Movement", options: ["Automatic", "Quartz"] },
 ];
+
 const SORT_OPTIONS = [
   { value: "newest", label: "Latest Releases" },
   { value: "price_asc", label: "Price: Low to High" },
   { value: "price_desc", label: "Price: High to Low" },
   { value: "name", label: "Model: A–Z" },
 ] as const;
+
 type SortValue = (typeof SORT_OPTIONS)[number]["value"];
+
 const DEFAULT_PRODUCTS: WatchProduct[] = [
   {
     id: "ml-1",
@@ -270,6 +275,7 @@ const DEFAULT_PRODUCTS: WatchProduct[] = [
     createdAt: 1,
   },
 ];
+
 // ── Helpers ───────────────────────────────────────────────────
 const fmt = (n: number) => `Rs. ${n.toLocaleString("en-IN")}`;
 const parseNum = (v: string) => {
@@ -292,7 +298,8 @@ function matches(
   }
   return true;
 }
-const E = [0.16, 1, 0.3, 1] as const;
+const E = [0.25, 1, 0.5, 1] as const;
+
 // ── Filter Checkbox ───────────────────────────────────────────
 function Checkbox({
   id,
@@ -317,19 +324,25 @@ function Checkbox({
             : "border-stone-700 bg-stone-900/40 group-hover:border-stone-500"
         }`}
       >
-        {checked && (
-          <svg
-            viewBox="0 0 10 8"
-            className="h-2.5 w-2.5 text-stone-950"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M1 4l2.5 2.5L9 1" />
-          </svg>
-        )}
+        <AnimatePresence initial={false}>
+          {checked && (
+            <motion.svg
+              initial={{ scale: 0.6, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.6, opacity: 0 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+              viewBox="0 0 10 8"
+              className="h-2.5 w-2.5 text-stone-950"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M1 4l2.5 2.5L9 1" />
+            </motion.svg>
+          )}
+        </AnimatePresence>
       </span>
       <input
         id={id}
@@ -350,6 +363,7 @@ function Checkbox({
     </label>
   );
 }
+
 // ── Filter Section ────────────────────────────────────────────
 function FilterSection({
   group,
@@ -374,9 +388,13 @@ function FilterSection({
         <span className="text-[12px] font-bold tracking-[0.2em] uppercase text-stone-300 transition-colors group-hover:text-stone-100 flex items-center gap-2">
           {group.label}
           {sel.size > 0 && (
-            <span className="inline-flex h-4 min-w-[16px] px-1 items-center justify-center rounded-full bg-stone-100 text-stone-950 text-[10px] font-bold">
+            <motion.span
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              className="inline-flex h-4 min-w-[16px] px-1 items-center justify-center rounded-full bg-stone-100 text-stone-950 text-[10px] font-bold"
+            >
               {sel.size}
-            </span>
+            </motion.span>
           )}
         </span>
         <ChevronDown
@@ -392,7 +410,7 @@ function FilterSection({
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.25, ease: E }}
+            transition={{ duration: 0.3, ease: E }}
             className="overflow-hidden"
           >
             <div
@@ -418,6 +436,7 @@ function FilterSection({
     </div>
   );
 }
+
 // ── Filters Panel ─────────────────────────────────────────────
 function FiltersPanel({
   filters,
@@ -450,12 +469,15 @@ function FiltersPanel({
             Filter By
           </span>
           {count > 0 && (
-            <button
+            <motion.button
+              initial={{ opacity: 0, x: 5 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0 }}
               onClick={onClear}
               className="flex items-center gap-1.5 text-stone-400 hover:text-stone-100 transition-colors text-[13px] font-medium"
             >
               <X size={12} /> Reset ({count})
-            </button>
+            </motion.button>
           )}
         </div>
         {/* Price */}
@@ -476,7 +498,7 @@ function FiltersPanel({
                     ? onPriceFrom(e.target.value)
                     : onPriceTo(e.target.value)
                 }
-                className="w-full border border-stone-800 bg-stone-950 rounded-[4px] px-3 py-2 text-[14px] text-stone-100 outline-none focus:border-stone-600 focus:bg-stone-900 transition-all duration-200 placeholder:text-stone-600 shadow-inner"
+                className="w-full border border-stone-800 bg-stone-950 rounded-[4px] px-3 py-2 text-[14px] text-stone-100 outline-none focus:border-stone-600 focus:bg-stone-900 transition-all duration-300 placeholder:text-stone-600 shadow-inner"
               />
             ))}
           </div>
@@ -494,11 +516,12 @@ function FiltersPanel({
     </aside>
   );
 }
+
 // ── Product Card ──────────────────────────────────────────────
 const STATUS = {
   in_stock: {
     badge: null,
-    btn: "bg-stone-100 hover:bg-stone-200 text-stone-950 cursor-pointer border border-transparent shadow-sm hover:scale-[1.04]",
+    btn: "bg-stone-100 hover:bg-stone-200 text-stone-950 cursor-pointer border border-transparent shadow-sm hover:scale-[1.08]",
   },
   out_of_stock: {
     badge: {
@@ -512,29 +535,27 @@ const STATUS = {
     btn: null,
   },
 };
-function ProductCard({
-  product: p,
-  index,
-}: {
-  product: WatchProduct;
-  index: number;
-}) {
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: E },
+  },
+};
+
+function ProductCard({ product: p }: { product: WatchProduct; index: number }) {
   const st = STATUS[p.status];
   return (
     <motion.article
-      layout
-      initial={{ opacity: 0, y: 24 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, scale: 0.97 }}
-      transition={{
-        duration: 0.45,
-        delay: Math.min(index * 0.04, 0.25),
-        ease: E,
-      }}
-      className="group flex flex-col bg-stone-900/30 rounded-lg border border-stone-800/80 overflow-hidden hover:border-stone-600 hover:shadow-[0_20px_50px_rgba(0,0,0,0.4)] transition-all duration-500"
+      layout="position"
+      variants={cardVariants}
+      whileHover={{ y: -6 }}
+      className="group flex flex-col bg-stone-900/30 rounded-lg border border-stone-800/80 overflow-hidden hover:border-stone-600 hover:shadow-[0_24px_60px_rgba(0,0,0,0.5)] transition-all duration-500"
     >
       <Link
-        href={`/shop/product/${p.id}`}
+        href={`/product-detail/${p.id}`}
         className="relative aspect-[4/5] overflow-hidden bg-gradient-to-b from-stone-900 to-stone-950 block"
       >
         <Image
@@ -542,7 +563,7 @@ function ProductCard({
           alt={p.name}
           fill
           sizes="(max-width:640px)50vw,(max-width:1024px)33vw,25vw"
-          className="object-contain p-8 transition-transform duration-700 ease-out group-hover:scale-105"
+          className="object-contain p-8 transition-transform duration-700 cubic-bezier(0.25, 1, 0.5, 1) group-hover:scale-105 group-hover:rotate-1"
         />
         {st.badge && (
           <div
@@ -553,8 +574,8 @@ function ProductCard({
             </span>
           </div>
         )}
-        <div className="absolute inset-0 bg-stone-950/40 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-all duration-400 flex items-center justify-center p-4">
-          <span className="flex items-center gap-2 bg-stone-100 px-4 py-2.5 rounded-[2px] text-[12px] font-bold tracking-[0.2em] uppercase text-stone-950 shadow-xl translate-y-3 group-hover:translate-y-0 transition-transform duration-500 ease-out">
+        <div className="absolute inset-0 bg-stone-950/50 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-all duration-400 flex items-center justify-center p-4">
+          <span className="flex items-center gap-2 bg-stone-100 px-4 py-2.5 rounded-[2px] text-[12px] font-bold tracking-[0.2em] uppercase text-stone-950 shadow-xl translate-y-4 group-hover:translate-y-0 transition-all duration-500 ease-out">
             Explore Model <ArrowRight size={13} className="text-[#ef312e]" />
           </span>
         </div>
@@ -564,7 +585,7 @@ function ProductCard({
           {p.collection}
         </span>
         <Link href={`/shop/product/${p.id}`}>
-          <h3 className="text-[16px] font-medium text-stone-200 line-clamp-2 leading-relaxed mb-3 group-hover:text-stone-55 transition-colors min-h-[2.6rem]">
+          <h3 className="text-[16px] font-medium text-stone-200 line-clamp-2 leading-relaxed mb-3 group-hover:text-stone-100 transition-colors min-h-[2.6rem]">
             {p.name}
           </h3>
         </Link>
@@ -575,7 +596,7 @@ function ProductCard({
           {p.status === "variants" ? (
             <Link
               href={`/shop/product/${p.id}`}
-              className="flex items-center justify-center h-9 w-9 rounded-full border border-stone-700 text-stone-200 hover:bg-stone-100 hover:text-red-700 transition-all duration-300 shadow-sm shrink-0"
+              className="flex items-center justify-center h-9 w-9 rounded-full border border-stone-700 text-stone-200 hover:bg-stone-100 hover:text-red-700 hover:scale-108 transition-all duration-300 shadow-sm shrink-0"
               title="View Editions"
             >
               <ArrowRight size={15} />
@@ -589,7 +610,7 @@ function ProductCard({
                 p.status === "out_of_stock" ? "Out of Stock" : "Add to Cart"
               }
             >
-              <ShoppingBag size={17} />
+              <ShoppingBag size={14} />
             </button>
           )}
         </div>
@@ -597,8 +618,9 @@ function ProductCard({
     </motion.article>
   );
 }
+
 // ── Main Page ─────────────────────────────────────────────────
-export default function BrandWatches({
+export default function Product({
   brandName = "Maurice Lacroix",
   products = DEFAULT_PRODUCTS,
 }: BrandWatchesProps) {
@@ -609,14 +631,17 @@ export default function BrandWatches({
   const [priceTo, setPriceTo] = useState("");
   const [sort, setSort] = useState<SortValue>("newest");
   const [mobileOpen, setMobileOpen] = useState(false);
+
   const priceMin = parseNum(priceFrom),
     priceMax = parseNum(priceTo);
+
   const toggleFilter = (groupId: string, option: string) =>
     setFilters((prev) => {
       const set = new Set(prev[groupId]);
       set.has(option) ? set.delete(option) : set.add(option);
       return { ...prev, [groupId]: set };
     });
+
   const clearFilters = () => {
     setFilters(
       Object.fromEntries(FILTER_GROUPS.map((g) => [g.id, new Set<string>()])),
@@ -624,10 +649,12 @@ export default function BrandWatches({
     setPriceFrom("");
     setPriceTo("");
   };
+
   const activeCount =
     Object.values(filters).reduce((n, s) => n + s.size, 0) +
     (priceFrom ? 1 : 0) +
     (priceTo ? 1 : 0);
+
   const filtered = useMemo(() => {
     let list = products.filter((p) => matches(p, filters, priceMin, priceMax));
     if (sort === "price_asc")
@@ -639,6 +666,7 @@ export default function BrandWatches({
     else list = [...list].sort((a, b) => b.createdAt - a.createdAt);
     return list;
   }, [products, filters, priceMin, priceMax, sort]);
+
   const filterProps = {
     filters,
     priceFrom,
@@ -648,13 +676,25 @@ export default function BrandWatches({
     onPriceTo: setPriceTo,
     onClear: clearFilters,
   };
+
+  // Grid Stagger Container Configurations
+  const containerVariants = {
+    hidden: { opacity: 1 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.06,
+      },
+    },
+  };
+
   return (
     <div className="min-h-screen bg-stone-950 text-stone-100 font-sans antialiased selection:bg-stone-800 pt-12">
       {/* ── Header ── */}
       <motion.header
-        initial={{ opacity: 0, y: -10 }}
+        initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: E }}
+        transition={{ duration: 1, ease: E }}
         className="bg-transparent border-b border-stone-900/80 relative z-10"
       >
         <div className="max-w-7xl mx-auto px-6 md:px-12 py-6 md:py-8 flex flex-col gap-4">
@@ -690,15 +730,24 @@ export default function BrandWatches({
                 {brandName}
               </h1>
             </div>
-            <div className="flex items-center gap-2.5 self-start sm:self-auto bg-stone-900/60 border border-stone-800/80 px-4 py-2 rounded-full">
-              <div className="h-1.5 w-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.6)]" />
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ delay: 0.2, duration: 0.5 }}
+              className="flex items-center gap-2.5 self-start sm:self-auto bg-stone-900/60 border border-stone-800/80 px-4 py-2 rounded-full"
+            >
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.6)]"></span>
+              </span>
               <span className="text-[14px] font-medium text-stone-400 tracking-wide">
                 {products.length} Curated Masterpieces
               </span>
-            </div>
+            </motion.div>
           </div>
         </div>
       </motion.header>
+
       {/* ── Body ── */}
       <div className="max-w-7xl mx-auto px-6 md:px-12 py-10 md:py-14">
         <div className="flex gap-10 lg:gap-12">
@@ -707,6 +756,7 @@ export default function BrandWatches({
             className="hidden lg:block w-[260px] shrink-0"
             {...filterProps}
           />
+
           {/* Main */}
           <div className="flex-1 min-w-0">
             {/* Toolbar */}
@@ -760,91 +810,118 @@ export default function BrandWatches({
                 />
               </div>
             </div>
+
             {/* Active chips */}
-            {activeCount > 0 && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="flex flex-wrap gap-2 mb-6"
-              >
-                {Object.entries(filters).flatMap(([gId, sel]) =>
-                  [...sel].map((opt) => (
-                    <button
-                      key={`${gId}-${opt}`}
-                      onClick={() => toggleFilter(gId, opt)}
+            <AnimatePresence>
+              {activeCount > 0 && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  exit={{ opacity: 0, height: 0 }}
+                  className="flex flex-wrap gap-2 mb-6 overflow-hidden"
+                >
+                  {Object.entries(filters).flatMap(([gId, sel]) =>
+                    [...sel].map((opt) => (
+                      <motion.button
+                        key={`${gId}-${opt}`}
+                        layoutId={`chip-${gId}-${opt}`}
+                        exit={{ scale: 0.8, opacity: 0 }}
+                        onClick={() => toggleFilter(gId, opt)}
+                        className="flex items-center gap-2 bg-stone-100 text-stone-950 rounded-[4px] px-3 py-1.5 hover:bg-stone-200 transition-all duration-200 text-[12px] font-bold tracking-widest uppercase shadow-sm"
+                      >
+                        {opt} <X size={10} className="text-stone-600" />
+                      </motion.button>
+                    )),
+                  )}
+                  {(priceFrom || priceTo) && (
+                    <motion.button
+                      layoutId="chip-price"
+                      exit={{ scale: 0.8, opacity: 0 }}
+                      onClick={() => {
+                        setPriceFrom("");
+                        setPriceTo("");
+                      }}
                       className="flex items-center gap-2 bg-stone-100 text-stone-950 rounded-[4px] px-3 py-1.5 hover:bg-stone-200 transition-all duration-200 text-[12px] font-bold tracking-widest uppercase shadow-sm"
                     >
-                      {opt} <X size={10} className="text-stone-600" />
-                    </button>
-                  )),
-                )}
-                {(priceFrom || priceTo) && (
-                  <button
-                    onClick={() => {
-                      setPriceFrom("");
-                      setPriceTo("");
-                    }}
-                    className="flex items-center gap-2 bg-stone-100 text-stone-950 rounded-[4px] px-3 py-1.5 hover:bg-stone-200 transition-all duration-200 text-[12px] font-bold tracking-widest uppercase shadow-sm"
-                  >
-                    Rs. {priceFrom || "—"} – {priceTo || "—"}{" "}
-                    <X size={10} className="text-stone-600" />
-                  </button>
-                )}
-              </motion.div>
-            )}
-            {/* Grid */}
-            <AnimatePresence mode="popLayout">
-              {filtered.length > 0 ? (
-                <motion.div
-                  layout
-                  className="grid grid-cols-2 gap-4 sm:gap-6 md:grid-cols-3 2xl:grid-cols-4"
-                >
-                  {filtered.map((p, i) => (
-                    <ProductCard key={p.id} product={p} index={i} />
-                  ))}
-                </motion.div>
-              ) : (
-                <motion.div
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="flex flex-col items-center justify-center border border-dashed border-stone-800 rounded-lg bg-stone-900/20 py-28 text-center px-6 shadow-sm"
-                >
-                  <div className="w-16 h-16 rounded-full bg-stone-900 border border-stone-800 flex items-center justify-center mb-6 shadow-sm">
-                    <ShoppingBag
-                      size={24}
-                      strokeWidth={1.2}
-                      className="text-stone-500"
-                    />
-                  </div>
-                  <h3
-                    className="text-3xl font-light mb-3 text-stone-100"
-                    style={{
-                      fontFamily: "'Cormorant Garamond', Georgia, serif",
-                    }}
-                  >
-                    No exact editions match your criteria
-                  </h3>
-                  <p
-                    className="text-stone-400 italic text-[15px] mb-8 max-w-sm leading-relaxed"
-                    style={{
-                      fontFamily: "'Cormorant Garamond', Georgia, serif",
-                    }}
-                  >
-                    Widen your horizon by resetting the dynamic filters or
-                    adjusting your pricing criteria.
-                  </p>
-                  <button
-                    onClick={clearFilters}
-                    className="bg-stone-100 text-stone-950 rounded-[4px] px-8 py-3.5 font-bold tracking-[0.2em] uppercase text-[12px] hover:bg-stone-200 transition-all duration-300 shadow-md"
-                  >
-                    Reset Dynamic Horizon
-                  </button>
+                      Rs. {priceFrom || "—"} – {priceTo || "—"}{" "}
+                      <X size={10} className="text-stone-600" />
+                    </motion.button>
+                  )}
                 </motion.div>
               )}
             </AnimatePresence>
+
+            {/* Grid Container with dynamic structural anchors */}
+            <div className="relative min-h-[400px]">
+              <AnimatePresence mode="popLayout" initial={false}>
+                {filtered.length > 0 ? (
+                  <motion.div
+                    key="products-grid"
+                    variants={containerVariants}
+                    initial="hidden"
+                    animate="visible"
+                    exit="hidden"
+                    className="grid grid-cols-2 gap-4 sm:gap-6 md:grid-cols-3 2xl:grid-cols-4"
+                  >
+                    {filtered.map((p, i) => (
+                      <ProductCard key={p.id} product={p} index={i} />
+                    ))}
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key="empty-grid"
+                    initial={{ opacity: 0, scale: 0.96 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.96 }}
+                    transition={{ duration: 0.4, ease: E }}
+                    className="flex flex-col items-center justify-center border border-dashed border-stone-800 rounded-lg bg-stone-900/20 py-28 text-center px-6 shadow-sm"
+                  >
+                    <motion.div
+                      animate={{ y: [0, -8, 0] }}
+                      transition={{
+                        duration: 3,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                      }}
+                      className="w-16 h-16 rounded-full bg-stone-900 border border-stone-800 flex items-center justify-center mb-6 shadow-sm"
+                    >
+                      <ShoppingBag
+                        size={24}
+                        strokeWidth={1.2}
+                        className="text-stone-500"
+                      />
+                    </motion.div>
+                    <h3
+                      className="text-3xl font-light mb-3 text-stone-100"
+                      style={{
+                        fontFamily: "'Cormorant Garamond', Georgia, serif",
+                      }}
+                    >
+                      No exact editions match your criteria
+                    </h3>
+                    <p
+                      className="text-stone-400 italic text-[15px] mb-8 max-w-sm leading-relaxed"
+                      style={{
+                        fontFamily: "'Cormorant Garamond', Georgia, serif",
+                      }}
+                    >
+                      Widen your horizon by resetting the dynamic filters or
+                      adjusting your pricing criteria.
+                    </p>
+                    <button
+                      onClick={clearFilters}
+                      className="bg-stone-100 text-stone-950 rounded-[4px] px-8 py-3.5 font-bold tracking-[0.2em] uppercase text-[12px] hover:bg-stone-200 transition-all duration-300 shadow-md"
+                    >
+                      Reset Dynamic Horizon
+                    </button>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           </div>
         </div>
       </div>
+
       {/* ── Mobile Drawer ── */}
       <AnimatePresence>
         {mobileOpen && (
@@ -853,14 +930,15 @@ export default function BrandWatches({
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm lg:hidden"
+              transition={{ duration: 0.3 }}
+              className="fixed inset-0 z-[60] bg-black/70 backdrop-blur-sm lg:hidden"
               onClick={() => setMobileOpen(false)}
             />
             <motion.div
               initial={{ x: "-100%" }}
               animate={{ x: 0 }}
               exit={{ x: "-100%" }}
-              transition={{ duration: 0.35, ease: E }}
+              transition={{ duration: 0.4, ease: E }}
               className="fixed inset-y-0 left-0 z-[70] w-[min(100%,340px)] bg-stone-950 shadow-2xl lg:hidden flex flex-col border-r border-stone-900"
             >
               <div className="flex items-center justify-between bg-stone-900/80 border-b border-stone-800 px-6 py-5 shrink-0">
