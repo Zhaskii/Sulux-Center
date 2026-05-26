@@ -336,6 +336,7 @@ interface ProductData {
 }
 interface ProductDetailsProps {
   product?: ProductData;
+  id: string;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -515,7 +516,7 @@ export default function ProductDetails({
   const tabs = [
     { id: "specs" as const, label: "Specifications" },
     { id: "care" as const, label: "Care & Maintenance" },
-    { id: "shipping" as const, label: "Shipping & Returns" },
+    // { id: "shipping" as const, label: "Shipping & Returns" },
   ];
 
   // header slides down after page entry completes
@@ -1325,103 +1326,6 @@ export default function ProductDetails({
           </section>
         </FadeUp>
       </main>
-
-      {/* ── FOOTER ── */}
-      <FadeIn delay={0} duration={0.8}>
-        <footer
-          className="mt-16 border-t"
-          style={{
-            borderColor: "rgba(255,255,255,0.05)",
-            background: "#060606",
-          }}
-        >
-          <div className="max-w-[1400px] mx-auto px-5 md:px-10 py-14">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
-              <div className="md:col-span-1">
-                <div className="flex flex-col leading-none mb-5">
-                  <span className="text-[20px] font-thin tracking-[0.5em] text-white uppercase">
-                    SULUX
-                  </span>
-                  <span
-                    className="text-[8px] font-black tracking-[0.8em] uppercase"
-                    style={{ color: "#444" }}
-                  >
-                    CENTER
-                  </span>
-                </div>
-                <p className="text-[12px] text-stone-600 leading-relaxed font-light">
-                  The world&apos;s most discerning timepiece marketplace.
-                  Curated by experts, authenticated by time.
-                </p>
-              </div>
-              {[
-                {
-                  heading: "Explore",
-                  items: [
-                    "Collections",
-                    "New Arrivals",
-                    "Vintage",
-                    "Limited Editions",
-                  ],
-                },
-                {
-                  heading: "Services",
-                  items: [
-                    "Authentication",
-                    "Concierge",
-                    "Watch Servicing",
-                    "Insurance",
-                  ],
-                },
-                {
-                  heading: "Company",
-                  items: ["About Sulux", "Careers", "Press", "Contact"],
-                },
-              ].map((col) => (
-                <div key={col.heading}>
-                  <p className="text-[10px] font-bold tracking-[0.35em] uppercase text-stone-600 mb-5">
-                    {col.heading}
-                  </p>
-                  <ul className="space-y-3">
-                    {col.items.map((item) => (
-                      <li key={item}>
-                        <Link
-                          href="#"
-                          className="text-[13px] text-stone-500 hover:text-stone-300 transition-colors font-light"
-                        >
-                          {item}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </div>
-            <div
-              className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4"
-              style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }}
-            >
-              <p className="text-[10px] tracking-[0.25em] uppercase text-stone-700">
-                &copy; {new Date().getFullYear()} Sulux Center. All Rights
-                Reserved.
-              </p>
-              <div className="flex gap-6 text-[10px] tracking-[0.2em] uppercase text-stone-700">
-                {["Privacy Policy", "Terms of Service", "Cookie Settings"].map(
-                  (item) => (
-                    <Link
-                      key={item}
-                      href="#"
-                      className="hover:text-stone-400 transition-colors"
-                    >
-                      {item}
-                    </Link>
-                  ),
-                )}
-              </div>
-            </div>
-          </div>
-        </footer>
-      </FadeIn>
     </div>
   );
 }
